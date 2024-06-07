@@ -1,70 +1,112 @@
-// import { styles } from '@/app/styles/style';
-// import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
-import React, { useEffect, useState } from 'react'
-import { HiMinus, HiPlus } from 'react-icons/hi';
+import { useRef, useState } from "react";
 
-type Props = {}
-
-const FAQ = (props: Props) => {
-  // const { data } = useGetHeroDataQuery("FAQ", {
-  // });
-  const [activeQuestion, setActiveQuestion] = useState(null);
-  const [questions, setQuestions] = useState<any[]>([]);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setQuestions(data.layout?.faq);
-  //   }
-  // }, [data]);
-
-  const toggleQuestion = (id: any) => {
-    setActiveQuestion(activeQuestion === id ? null : id);
-  };
-
-  return (
-    <div>
-      Nab
-      <div className="w-[90%] 800px:w-[80%] m-auto">
-        <h1 className={`text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2 800px:text-[40px]`}>
-          Frequently Asked Questions
-        </h1>
-        <div className="mt-12">
-          <dl className="space-y-8">
-            {questions?.map((q) => (
-              <div key={q.id}
-                className={`${q._id !== questions[0]?._id && "border-t"
-                  } border-gray-200 pt-6`}
-              >
-                <dt className="text-lg">
-                  <button
-                    className="flex items-start justify-between w-full text-left focus:outline-none"
-                    onClick={() => toggleQuestion(q._id)}
-                  >
-                    <span className="font-medium text-black dark:text-white">{q.question}</span>
-                    <span className="ml-6 flex-shrink-0">
-                      {activeQuestion === q._id ? (
-                        <HiMinus className="h-6 w-6 text-black dark:text-white" />
-                      ) : (
-                        <HiPlus className="h-6 w-6 text-black dark:text-white" />
-                      )}
-                    </span>
-                  </button>
-                </dt>
-                {activeQuestion === q._id && (
-                  <dd className="mt-2 pr-12">
-                    <p className="text-base font-Poppins text-black dark:text-white">{q.answer}</p>
-                  </dd>
-                )}
-              </div>
-            ))}
-          </dl>
-        </div>
-        <br />
-        <br />
-        <br />
-      </div>
-    </div>
-  )
+interface FaqItem {
+    q: string;
+    a: string;
 }
 
-export default FAQ
+interface FaqsCardProps {
+    faqsList: FaqItem;
+    idx: number;
+}
+
+const FaqsCard: React.FC<FaqsCardProps> = ({ faqsList, idx }) => {
+    const answerElRef = useRef<HTMLDivElement | null>(null);
+    const [state, setState] = useState(false);
+    const [answerH, setAnswerH] = useState('0px');
+
+    const handleOpenAnswer = () => {
+        if (answerElRef.current) {
+            const answerChild = answerElRef.current.firstElementChild as HTMLElement | null;
+            if (answerChild) {
+                const answerElH = answerChild.offsetHeight;
+                setState(!state);
+                setAnswerH(`${answerElH + 20}px`);
+            }
+        }
+    };
+
+    return (
+        <div 
+            className="space-y-3 mt-5 overflow-hidden border-b"
+            key={idx}
+            onClick={handleOpenAnswer}
+        >
+            <h4 className="cursor-pointer pb-5 flex items-center justify-between text-lg text-gray-700 font-medium">
+                {faqsList.q}
+                {
+                    state ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                        </svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                    )
+                }
+            </h4>
+            <div
+                ref={answerElRef} className="duration-300"
+                style={state ? { height: answerH } : { height: '0px' }}
+            >
+                <div>
+                    <p className="text-gray-500">
+                        {faqsList.a}
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+const FAQSection: React.FC = () => {
+    const faqsList: FaqItem[] = [
+        {
+            q: "What are some random questions to ask?",
+            a: "That's exactly the reason we created this random question generator. There are hundreds of random questions to choose from so you're able to find the perfect random question."
+        },
+        {
+            q: "Do you include common questions?",
+            a: "This generator doesn't include most common questions. The thought is that you can come up with common questions on your own so most of the questions in this generator."
+        },
+        {
+            q: "Can I use this for 21 questions?",
+            a: "Yes! there are two ways that you can use this question generator depending on what you're after. You can indicate that you want 21 questions generated."
+        },
+        {
+            q: "Are these questions for girls or for boys?",
+            a: "The questions in this generator are gender neutral and can be used to ask either male or females (or any other gender the person identifies with)."
+        },
+        {
+            q: "What do you wish you had more talent doing?",
+            a: "If you've been searching for a way to get random questions, you've landed on the correct webpage. We created the Random Question Generator to ask you as many random questions as your heart desires."
+        }
+    ];
+
+    return (
+        <section className="leading-relaxed max-w-screen-xl mt-12 mx-auto px-4 md:px-8">
+            <div className="space-y-3 text-center">
+                <h1 className="text-3xl text-gray-800 font-semibold">
+                    Frequently Asked Questions
+                </h1>
+                <p className="text-gray-600 max-w-lg mx-auto text-lg">
+                    Answered all frequently asked questions, Still confused? feel free to contact us.
+                </p>
+            </div>
+            <div className="mt-14 max-w-2xl mx-auto">
+                {
+                    faqsList.map((item, idx) => (
+                        <FaqsCard
+                            key={idx}
+                            idx={idx}
+                            faqsList={item}
+                        />
+                    ))
+                }
+            </div>
+        </section>
+    );
+}
+
+export default FAQSection;
