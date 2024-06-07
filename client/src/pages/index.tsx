@@ -1,10 +1,26 @@
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
+import Heading from "@/components/utils/Heading"
+import { useState } from "react";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(0);
+  const [route, setRoute] = useState("Login");
   return (
     <main className="w-full">
-      <Navbar></Navbar>
+      <Heading
+        title="Lernify"
+        description="Lernify is a platform for students to learn and get help from teachers"
+        keywords="Prograaming,MERN,Redux,Machine Learning"
+      />
+      <Navbar
+        open={open}
+        setOpen={setOpen}
+        activeItem={activeItem}
+        setRoute={setRoute}
+        route={route}
+      ></Navbar>
       <Hero></Hero>
     </main>
   )
