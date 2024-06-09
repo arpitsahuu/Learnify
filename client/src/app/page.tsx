@@ -1,6 +1,7 @@
-import Navbar from "@/components/Navbar"
-import Hero from "@/components/Hero"
-import Heading from "@/components/utils/Heading"
+"use client"
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import Heading from "@/components/utils/Heading";
 import { useState } from "react";
 
 export default function Home() {
@@ -8,7 +9,8 @@ export default function Home() {
   const [activeItem, setActiveItem] = useState(0);
   const [route, setRoute] = useState("Login");
   return (
-    <main className="w-full">
+    <main className="flex min-h-screen ">
+      <main className="w-full">
       <Heading
         title="Lernify"
         description="Lernify is a platform for students to learn and get help from teachers"
@@ -23,5 +25,6 @@ export default function Home() {
       ></Navbar>
       <Hero></Hero>
     </main>
-  )
+    </main>
+  );
 }
