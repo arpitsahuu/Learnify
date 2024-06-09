@@ -1,8 +1,9 @@
 "use client"
-import Hero from "@/components/Hero";
+import Hero from "@/components/Routes/Hero";
 import Navbar from "@/components/Navbar";
 import Heading from "@/components/utils/Heading";
 import { useState } from "react";
+import Courses from "@/components/Routes/Courses";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ export default function Home() {
         route={route}
       ></Navbar>
       <Hero></Hero>
+      <Courses />
     </main>
     </main>
   );
