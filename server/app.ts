@@ -4,6 +4,7 @@ import express, { NextFunction, Request, Response } from "express";
 import connectDB from "./src/models/dbConnection";
 import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./src/middlewares/error";
+import cors from "cors";
 
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const app = express();
@@ -16,6 +17,17 @@ connectDB();
 
 import morgan from "morgan"
 app.use(morgan("dev"));
+
+// CORS setup
+const allowedOrigins = [
+	'http://localhost:3000',
+];
+
+app.use(cors({
+	origin: allowedOrigins,
+	credentials: true,
+	optionsSuccessStatus: 200 ,// Address potential preflight request issues
+}));
 
 /* router */
 import router from "./src/routes/userRouter";

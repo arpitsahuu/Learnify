@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "@types/cors": "^2.8.17",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.7",
     "bcryptjs": "^2.4.3",

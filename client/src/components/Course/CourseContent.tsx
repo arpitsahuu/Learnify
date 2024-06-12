@@ -1,9 +1,9 @@
-import { useGetCourseContentQuery } from "@/redux/features/courses/coursesApi";
+// import { useGetCourseContentQuery } from "@/redux/features/courses/coursesApi";
 import React, { useState } from "react";
 import Loader from "../Loader/Loader";
-import Heading from "@/app/utils/Heading";
+import Heading from "../utils/Heading";
 import CourseContentMedia from "./CourseContentMedia";
-import Header from "../Header";
+import Header from "../Navbar";
 import CourseContentList from "./CourseContentList";
 
 type Props = {
@@ -12,10 +12,12 @@ type Props = {
 };
 
 const CourseContent = ({ id,user }: Props) => {
-  const { data: contentData, isLoading,refetch } = useGetCourseContentQuery(id,{refetchOnMountOrArgChange:true});
+  // const { data: contentData, isLoading,refetch } = useGetCourseContentQuery(id,{refetchOnMountOrArgChange:true});
   const [open, setOpen] = useState(false);
   const [route, setRoute] = useState('Login')
-  const data = contentData?.content;
+  // const data = contentData?.content;
+  const [isLoading, setisLoading] = useState(false);
+
 
   const [activeVideo, setActiveVideo] = useState(0);
 

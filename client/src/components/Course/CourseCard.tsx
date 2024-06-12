@@ -7,7 +7,7 @@ import { AiOutlineUnorderedList } from "react-icons/ai";
 type Props = {
   item: any;
   isProfile?: boolean;
-};
+};  
 
 const CourseCard: FC<Props> = ({ item, isProfile }) => {
   return (
