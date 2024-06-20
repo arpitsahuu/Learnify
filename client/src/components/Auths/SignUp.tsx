@@ -8,9 +8,8 @@ import {
   AiFillGithub,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-// import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { useRegisterMutation } from "../../Store/auth/authApi";
 import { toast } from "react-hot-toast";
-import { asyncSignup } from "@/Store/Actions/UserActions";
 import { useDispatch } from "react-redux";
 
 type Props = {
@@ -28,21 +27,21 @@ const schema = Yup.object().shape({
 const Signup: FC<Props> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-  // const [register,{data,error,isSuccess}] = useRegisterMutation(); 
+  const [register,{data,error,isSuccess}] = useRegisterMutation(); 
 
-  // useEffect(() => {
-  //  if(isSuccess){
-  //     const message = data?.message || "Registration successful";
-  //     toast.success(message);
-  //     setRoute("Verification");
-  //  }
-  //  if(error){
-  //   if("data" in error){
-  //     const errorData = error as any;
-  //     toast.error(errorData.data.message);
-  //   }
-  //  }
-  // }, [isSuccess,error]);
+  useEffect(() => {
+   if(isSuccess){
+      const message = data?.message || "Registration successful";
+      toast.success(message);
+      setRoute("Verification");
+   }
+   if(error){
+    if("data" in error){
+      const errorData = error as any;
+      toast.error(errorData.data.message);
+    }
+   }
+  }, [isSuccess,error]);
   
 
   const formik = useFormik({
@@ -52,15 +51,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
       const data = {
         name,email,password
       };
-      console.log(data)
-      try {
-        await dispatch(asyncSignup(data)); // Dispatch the thunk action
-        toast.success("Registration successful");
-        setRoute("Verification");
-      } catch (error: any) {
-        toast.error("Registration failed. Please try again.");
-      }
-
+      await register(data);
     },
   });
 

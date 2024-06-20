@@ -8,7 +8,7 @@ import {
   AiFillGithub,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-// import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useLoginMutation } from "../../Store/auth/authApi";
 import { toast } from "react-hot-toast";
 // import {signIn} from "next-auth/react";
 
@@ -27,34 +27,34 @@ const schema = Yup.object().shape({
 
 const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
   const [show, setShow] = useState(false);
-  // const [login, { isSuccess, error }] = useLoginMutation();
+  const [login, { isSuccess, error }] = useLoginMutation();
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
     onSubmit: async ({ email, password }) => {
-      // await login({ email, password });
+      await login({ email, password });
     },
   });
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     toast.success("Login Successfully!");
-  //     setOpen(false);
-  //     refetch();
-  //   }
-  //   if (error) {
-  //     if ("data" in error) {
-  //       const errorData = error as any;
-  //       toast.error(errorData.data.message);
-  //     }
-  //   }
-  // }, [isSuccess, error]);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Login Successfully!");
+      setOpen(false);
+      refetch();
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        toast.error(errorData.data.message);
+      }
+    }
+  }, [isSuccess, error]);
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   return (
     <div className="w-full">
-      <h1 className="text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">Login with ELearning</h1>
+      <h1 className="text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">Login with Lernify</h1>
       <form onSubmit={handleSubmit}>
         <label className="text-[16px] font-Poppins text-black dark:text-white" htmlFor="email">
           Enter your Email
