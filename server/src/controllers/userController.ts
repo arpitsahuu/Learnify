@@ -344,7 +344,6 @@ interface IUpdataUser {
 }
 
 // UPDATE USER INFORMATION LIKE EMAIL, CONTACT, NAME
-
 export const updateUserInfo = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, name, contact } = req.body as IUpdataUser;
