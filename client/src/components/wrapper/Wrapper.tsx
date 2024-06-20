@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode } from 'react';
-import { Store } from '@/Store/store';
+import { store } from '@/Store/store';
 import { Provider } from 'react-redux';
 
 interface WrapperProps {
@@ -10,7 +10,7 @@ interface WrapperProps {
 const Wrapper: React.FC<WrapperProps> = ({ children }) => {
   return (
     <>
-      <Provider store={Store}>
+      <Provider store={store}>
         {children}
       </Provider>
     </>
