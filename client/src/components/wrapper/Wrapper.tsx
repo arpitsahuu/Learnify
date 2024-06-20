@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode } from 'react';
-import { Store } from '@/Store/Store';
+import { Store } from '@/Store/store';
 import { Provider } from 'react-redux';
 
 interface WrapperProps {

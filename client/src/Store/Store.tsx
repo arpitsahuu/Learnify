@@ -1,15 +1,23 @@
+"use client";
 import { configureStore } from "@reduxjs/toolkit";
-import UserSlice from "./Slices/UserSlice";
+import { apiSlice } from "./api/apiSlice";
+import authSlice from "./auth/authSlice";
 
-
-export const Store = configureStore({
-    reducer: { 
-        user: UserSlice,
-        // employe: EmployeSlice
-    },
+export const store = configureStore({
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authSlice,
+  },
+  devTools: false,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof Store.getState>;
-// Inferred type: {student: StudentState, employe: EmployeState}
-export type AppDispatch = typeof Store.dispatch;
+// call the load user function on every page load
+const initializeApp = async () => {
+  await store.dispatch(
+    apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
+  );
+};
+
+initializeApp();

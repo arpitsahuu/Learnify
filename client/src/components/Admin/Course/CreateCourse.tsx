@@ -147,6 +147,15 @@ const CreateCourse = (props: Props) => {
             handleSubmit={handleSubmit}
           />
         )}
+
+        {/* {active === 3 && (
+          <CoursePreview
+            active={active}
+            setActive={setActive}
+            courseData={courseData}
+            handleCourseCreate={handleCourseCreate}
+          />
+        )} */}
       </div>
       <div className="w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-0">
         <CourseOptions active={active} setActive={setActive} />

@@ -10,6 +10,8 @@ import {
 import { FcGoogle } from "react-icons/fc";
 // import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
+import { asyncSignup } from "@/Store/Actions/UserActions";
+import { useDispatch } from "react-redux";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -25,6 +27,7 @@ const schema = Yup.object().shape({
 
 const Signup: FC<Props> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
   // const [register,{data,error,isSuccess}] = useRegisterMutation(); 
 
   // useEffect(() => {
@@ -49,7 +52,15 @@ const Signup: FC<Props> = ({ setRoute }) => {
       const data = {
         name,email,password
       };
-      // await register(data);
+      console.log(data)
+      try {
+        await dispatch(asyncSignup(data)); // Dispatch the thunk action
+        toast.success("Registration successful");
+        setRoute("Verification");
+      } catch (error: any) {
+        toast.error("Registration failed. Please try again.");
+      }
+
     },
   });
 
@@ -65,7 +76,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
           </label>
           <input
             type="text"
-            name=""
+            name="name"
             value={values.name}
             onChange={handleChange}
             id="name"
