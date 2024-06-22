@@ -31,10 +31,11 @@ app.use(cors({
 
 /* router */
 import router from "./src/routes/userRouter";
+import courseRouter from "./src/routes/courseRouter";
 
 
 // app.use("/api/items", itemsRoutes);
-app.use("/api/v1/user", router);
+app.use("/api/v1", router,courseRouter);
 
 /* 404 */
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

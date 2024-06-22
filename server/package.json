@@ -15,6 +15,7 @@
     "@types/cors": "^2.8.17",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.7",
+    "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",

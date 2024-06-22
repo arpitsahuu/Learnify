@@ -34,7 +34,9 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             {item}
           </Link>
         ))}
-        <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button>
+        { userData ?
+        <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> : <button>profile</button>
+         }
       </div>
       {route === "Login" && (
         <>
