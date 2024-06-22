@@ -3,7 +3,7 @@ import { userLoggedIn, userLoggedOut, userRegistration } from "./authSlice";
 
 type RegistrationResponse = {
   message: string;
-  activationToken: string;
+  token: string;
 };
 
 type RegistrationData = {};
@@ -13,7 +13,7 @@ export const authApi = apiSlice.injectEndpoints({
     // endpoints here
     register: builder.mutation<RegistrationResponse, RegistrationData>({
       query: (data) => ({
-        url: "registration",
+        url: "/user/registration",
         method: "POST",
         body: data,
         credentials: "include" as const,
@@ -23,7 +23,7 @@ export const authApi = apiSlice.injectEndpoints({
           const result = await queryFulfilled;
           dispatch(
             userRegistration({
-              token: result.data.activationToken,
+              token: result.data.token,
             })
           );
         } catch (error: any) {
@@ -33,17 +33,30 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     activation: builder.mutation({
       query: ({ activation_token, activation_code }) => ({
-        url: "activate-user",
+        url: "/user/activate/user",
         method: "POST",
         body: {
           activation_token,
-          activation_code,
+          activationCode: activation_code,
         },
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            userLoggedIn({
+              accessToken: result.data.accessToken,
+              user: result.data.user,
+            })
+          );
+        } catch (error: any) {
+          console.log(error);
+        }
+      },
     }),
     login: builder.mutation({
       query: ({ email, password }) => ({
-        url: "login",
+        url: "/user/login",
         method: "POST",
         body: {
           email,
@@ -92,7 +105,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     logOut: builder.query({
       query: () => ({
-        url: "logout",
+        url: "/user/logout",
         method: "GET",
         credentials: "include" as const,
       }),

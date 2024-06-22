@@ -52,7 +52,9 @@ const Verification: FC<Props> = ({ setRoute }) => {
   });
 
   const verificationHandler = async () => {
+    console.log("call")
     const verificationNumber = Object.values(verifyNumber).join("");
+    console.log(verificationNumber)
     if (verificationNumber.length !== 4) {
       setInvalidError(true);
       return;
@@ -77,7 +79,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
 
   return (
     <div>
-      <h1 className="text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">Verify Your Account</h1>
+      <h1 className={`${styles.title}`}>Verify Your Account</h1>
       <br />
       <div className="w-full flex items-center justify-center mt-2">
         <div className="w-[80px] h-[80px] rounded-full bg-[#497DF2] flex items-center justify-center">
@@ -107,7 +109,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
       <br />
       <br />
       <div className="w-full flex justify-center">
-        <button className="flex flex-row justify-center items-center py-3 px-6 rounded-full cursor-pointer bg-[#2190ff] min-h-[45px] w-full text-[16px] font-Poppins font-semibold" >
+        <button className={`${styles.button}`} onClick={verificationHandler}>
           Verify OTP
         </button>
       </div>

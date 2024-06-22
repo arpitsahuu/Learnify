@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/registration",userRegistration);
 
 // USER ACTIVATION CODE (for verify user email) 
-router.post("/activation/code",userActivation);
+router.post("/activate/user",userActivation);
 
 // USER LONIN 
 router.post("/login",userLogin);
@@ -26,6 +26,6 @@ router.put("/me",updateUserInfo);
 router.patch("/password",updateUserPassword);
 
 // USER INFO 
-router.post("/me",userInfo);
+router.post("/me",userInfo);    
 
 export default router;

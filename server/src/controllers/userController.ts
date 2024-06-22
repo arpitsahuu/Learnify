@@ -43,10 +43,11 @@ interface IRegistrationBody {
 export const userRegistration = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // const requestBody: IRegistrationBody = req.body as IRegistrationBody ;
+    console.log(req.body)
     const { name, email, password, contact } = req.body as IRegistrationBody;
 
-    if (!name || !email || !password || !contact)
-      return next(new errorHandler(`fill all deatils`));
+    // if (!name || !email || !password || !contact)
+    //   return next(new errorHandler(`fill all deatils`));
 
     const isEmailExit = await User.findOne({ email: email });
     if (isEmailExit)
@@ -95,43 +96,51 @@ export const userRegistration = catchAsyncError(
 
 interface IActivationCode {
   activationCode: string;
+  activation_token: string;
 }
 
 // REGISTER USER AFTER MAIL VERIFICATION .
 
 export const userActivation = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    let { activationCode } = req.body as IActivationCode;
+    let { activationCode , activation_token } = req.body as IActivationCode;
+    console.log(req.body)
 
     if (!activationCode)
       return next(new errorHandler("Provide Activation Code"));
 
-    const { token } = req.cookies;
-
+    let { token } = req.cookies;
+    console.log(req.cookies)
+    
+    if(!token){
+      token = activation_token
+    }
     let tokenInof: { user: IRegistrationBody; ActivationCode: string } =
       (await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET as string)) as {
         user: IRegistrationBody;
         ActivationCode: string;
       };
-
+      console.log(tokenInof)
     const isEmailExit = await User.findOne({ email: tokenInof.user.email });
     if (isEmailExit)
       return next(
         new errorHandler("User With This Email Address Already Exits")
       );
 
+      console.log(isEmailExit)
+
     if (activationCode != tokenInof?.ActivationCode)
       return next(new errorHandler("Wrong Activation Code"));
 
-    let { name, email, password, contact } = tokenInof.user;
+    let { name, email, password } = tokenInof.user;
 
     const newUser = await User.create({
       name,
       email,
       password,
-      contact,
       isVerified: true,
     });
+    console.log(newUser)
 
     const tokens = generateTokens(newUser);
     const options = {

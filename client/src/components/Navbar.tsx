@@ -5,6 +5,7 @@ import CustomModal from "./utils/CustomModal";
 import Login from "./Auths/Login";
 import Signup from "./Auths/SignUp";
 import Verification from "./Auths/Verification";
+import { useLoadUserQuery } from "../Store/api/apiSlice";
 
 type Props = {
   open: boolean;
@@ -16,9 +17,10 @@ type Props = {
 
 const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const linkData: string[] = ["Service", "Our Work", "About us"];
+  const {data:userData,isLoading,refetch} = useLoadUserQuery(undefined,{});
   return (
     <nav className="w-full px-20 py-5 flex justify-between items-center font-['Neue Montreal'] absolute top-0">
-      <div className="logo">
+      <div className="logo">  
         {" "}
         <h3 className="text-xl">Logo</h3>
       </div>
@@ -43,7 +45,7 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               setRoute={setRoute}
               activeItem={activeItem}
               component={Login}
-            //   refetch={refetch}
+              refetch={refetch}
             />
           )}
         </>

@@ -36,7 +36,6 @@ const userModel: Schema<IUser> = new mongoose.Schema({
     },
     contact:{
         type:String,
-        required:[true,"Contact is required"],
         minLenght:[10,"Contact should be atleast 10 character long"],
         maxLenght:[10,"Contact must not exceed 10 character"]
 

@@ -22,6 +22,7 @@ const schema = Yup.object().shape({
     .email("Invalid email!")
     .required("Please enter your email!"),
   password: Yup.string().required("Please enter your password!").min(6),
+  // number: Yup.number().required("Please enter your Number").positive().min(10).max
 });
 
 const Signup: FC<Props> = ({ setRoute }) => {
@@ -97,6 +98,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
         {errors.email && touched.email && (
           <span className="text-red-500 pt-2 block">{errors.email}</span>
         )}
+        
         <div className="w-full mt-5 relative mb-1">
           <label className="text-[16px] font-Poppins text-black dark:text-white" htmlFor="email">
             Enter your password
