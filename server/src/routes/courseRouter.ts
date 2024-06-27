@@ -1,5 +1,5 @@
 import express from 'express';
-import { generateVideoUrl, uploadCourse } from '../controllers/courseController';
+import { generateVideoUrl, getAdminAllCourses, getAllCourses, getSingleCourse, uploadCourse } from '../controllers/courseController';
 import {  isAutheticated } from '../middlewares/auth';
 import {upload} from "../middlewares/multer"
 
@@ -17,6 +17,17 @@ courseRouter.post(
 ); 
 
 courseRouter.post("/che", uploadCourse)
+
+courseRouter.get("/get-course/:id", getSingleCourse);
+
+courseRouter.get("/get-courses", getAllCourses);
+
+courseRouter.get(
+    "/get-admin-courses",
+    // isAutheticated,
+    // authorizeRoles("admin"),
+    getAdminAllCourses
+);
 
 
 
