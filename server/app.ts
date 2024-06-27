@@ -28,6 +28,7 @@ app.use(cors({
 	credentials: true,
 	optionsSuccessStatus: 200 ,// Address potential preflight request issues
 }));
+const multer = require("multer");
 
 /* router */
 import router from "./src/routes/userRouter";

@@ -17,7 +17,7 @@ router.post("/login",userLogin);
 router.get("/logout",userLongOut);
 
 // USER INFO 
-router.post("/me",userInfo);
+router.get("/me",userInfo);
 
 // UPDATE USER INFO 
 router.put("/me",updateUserInfo);

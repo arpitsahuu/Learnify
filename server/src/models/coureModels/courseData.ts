@@ -4,6 +4,11 @@ interface IQuery extends Document {
   _id: Types.ObjectId;
 }
 
+interface ILink extends Document {
+  title: string;
+  url: string;
+}
+
 export interface ICourseData extends Document {
   videoUrl: string;
   title: string;
@@ -11,7 +16,7 @@ export interface ICourseData extends Document {
   description: string;
   videoLength: number;
   videoPlayer: string;
-  links: string;
+  links: [ILink];
   suggestion: string;
   query: Types.ObjectId[] | IQuery[];
   course: Types.ObjectId;
@@ -24,7 +29,10 @@ const courseDataSchema: Schema<ICourseData> = new Schema({
   description: String,
   videoLength: Number,
   videoPlayer: String,
-  links: String,
+  links: [{
+    title:String,
+    url:String,
+  }],
   suggestion: String,
   query: [{
     type: Schema.Types.ObjectId,

@@ -13,7 +13,7 @@ export const authApi = apiSlice.injectEndpoints({
     // endpoints here
     register: builder.mutation<RegistrationResponse, RegistrationData>({
       query: (data) => ({
-        url: "/user/registration",
+        url: "/registration",
         method: "POST",
         body: data,
         credentials: "include" as const,
@@ -33,7 +33,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     activation: builder.mutation({
       query: ({ activation_token, activation_code }) => ({
-        url: "/user/activate/user",
+        url: "/activate/user",
         method: "POST",
         body: {
           activation_token,
@@ -56,7 +56,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     login: builder.mutation({
       query: ({ email, password }) => ({
-        url: "/user/login",
+        url: "/login",
         method: "POST",
         body: {
           email,
@@ -105,7 +105,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     logOut: builder.query({
       query: () => ({
-        url: "/user/logout",
+        url: "logout",
         method: "GET",
         credentials: "include" as const,
       }),

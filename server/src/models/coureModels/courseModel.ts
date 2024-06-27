@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface ICourse extends Document {
   name: string;
   description: string;
+  categories:string;
   price: number;
   estimatedPrice: number;
   thumbnail: {
@@ -17,6 +18,7 @@ export interface ICourse extends Document {
   reviews: any[]; // Define the type for reviews
   rating: number;
   purchased: number;
+  totalVideos:number;
 }
 
 const courseSchema: Schema<ICourse> = new Schema({
@@ -31,6 +33,9 @@ const courseSchema: Schema<ICourse> = new Schema({
   price: {
     type: Number,
     required: [true, "Price is Required"]
+  },
+  categories:{
+    type:String
   },
   estimatedPrice: {
     type: Number,
@@ -69,7 +74,11 @@ const courseSchema: Schema<ICourse> = new Schema({
   purchased: {
     type: Number,
     default: 0
-  }
+  },
+  totalVideos: {
+    type: Number,
+    required: [true, "Number of videos required"]
+  },
 });
 
 const Course = mongoose.model<ICourse>("Course", courseSchema);
