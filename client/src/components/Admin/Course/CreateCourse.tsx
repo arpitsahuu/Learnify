@@ -110,7 +110,6 @@ const CreateCourse = (props: Props) => {
 
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
-    console.log(data)
     if (!isLoading) {
       await createCourse(data);
     }
@@ -118,7 +117,7 @@ const CreateCourse = (props: Props) => {
 
   return (
     <div className="w-full flex min-h-screen">
-      <div className="w-[80%]">
+      <div className="w-[100%] ">
         {active === 0 && (
           <CourseInformation
             courseInfo={courseInfo}
@@ -158,9 +157,9 @@ const CreateCourse = (props: Props) => {
           />
         )}
       </div>
-      <div className="w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-0">
+      {/* <div className="w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-0">
         <CourseOptions active={active} setActive={setActive} />
-      </div>
+      </div> */}
     </div>
   );
 };

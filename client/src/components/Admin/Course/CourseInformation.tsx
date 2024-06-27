@@ -106,8 +106,8 @@ const CourseInformation: FC<Props> = ({
           ></textarea>
         </div>
         <br />
-        <div className="w-full flex justify-between">
-          <div className="w-[45%]">
+        <div className="w-full flex justify-between flex-col sm:flex-row">
+          <div className="w-[100%] sm:w-[45%]">
             <label className={`${styles.label}`}>Course Price</label>
             <input
               type="number"
@@ -123,9 +123,9 @@ const CourseInformation: FC<Props> = ({
             ${styles.input}`}
             />
           </div>
-          <div className="w-[50%]">
+          <div className="w-[100%] mt-4 sm:w-[50%] sm:mt-0">
             <label className={`${styles.label} w-[50%]`}>
-              Estimated Price (optional)
+              Estimated Price <span className="text-gray-600 text-sm">(optional)</span> 
             </label>
             <input
               type="number"
@@ -142,8 +142,8 @@ const CourseInformation: FC<Props> = ({
           </div>
         </div>
         <br />
-        <div className="w-full flex justify-between">
-          <div className="w-[45%]">
+        <div className="w-full flex justify-between flex-col sm:flex-row">
+          <div className="w-[100%] sm:w-[45%]">
             <label className={`${styles.label}`} htmlFor="email">
               Course Tags
             </label>
@@ -161,8 +161,8 @@ const CourseInformation: FC<Props> = ({
             ${styles.input}`}
             />
           </div>
-          <div className="w-[50%]">
-            <label className={`${styles.label} w-[50%]`}>
+          <div className="w-[100%] mt-4 sm:w-[50%] sm:mt-0">
+            <label className={`${styles.label} w-[50%] `}>
               Course Categories
             </label>
             <select
@@ -191,8 +191,8 @@ const CourseInformation: FC<Props> = ({
           </div>
         </div>
         <br />
-        <div className="w-full flex justify-between">
-          <div className="w-[45%]">
+        <div className="w-full flex justify-between flex-col sm:flex-row">
+          <div className="w-[100%] sm:w-[45%]">
             <label className={`${styles.label}`}>Course Level</label>
             <input
               type="text"
@@ -208,7 +208,7 @@ const CourseInformation: FC<Props> = ({
             ${styles.input}`}
             />
           </div>
-          <div className="w-[50%]">
+          <div className="w-[100%] mt-4 sm:w-[50%] sm:mt-0">
             <label className={`${styles.label} w-[50%]`}>Demo Url</label>
             <input
               type="text"

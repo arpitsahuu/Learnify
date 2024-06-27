@@ -83,6 +83,7 @@ export const uploadCourse = catchAsyncError(
       }
       console.log(data);
       const course = await Course.create(data);
+      console.log(course)
       res.status(201).json({
         success:true,
         course
