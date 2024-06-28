@@ -119,6 +119,32 @@ export const editCourse = catchAsyncError(
 );
 
 
+//EDIT COURSE 
+export const deltetCours = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const id = req.params.id
+      const course = await Course.findById(id);
+      if(!course){
+        return next(new errorHandler("Indalid course ID",401))
+      }
+      if(course?.thumbnail){
+        const thumbnail = course.thumbnail;
+        await cloudinary.v2.uploader.destroy(thumbnail.public_id);
+      }
+      await Course.findByIdAndDelete(id)
+      
+
+      res.status(201).json({
+        success: true,
+        message:"succesfully deleted"
+      });
+    } catch (error: any) {
+      return next(new errorHandler(error.message, 500));
+    }
+  }
+);
+
 //Get Single Course 
 export const getSingleCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {

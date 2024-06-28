@@ -5,7 +5,7 @@ import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
-import { useEditCourseMutation, useGetAllCoursesQuery } from "../../../../redux/features/courses/coursesApi";
+import { useEditCourseMutation, useGetAllCoursesQuery } from "../../../Store/courses/coursesApi";
 import { toast } from "react-hot-toast";
 import { redirect } from "next/navigation";
 
