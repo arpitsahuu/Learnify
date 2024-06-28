@@ -1,5 +1,5 @@
 import express from 'express';
-import { updateUserInfo, updateUserPassword, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
+import { deleteUser, getAllUsers, updateUserInfo, updateUserPassword, updateUserRole, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
 import { userInfo } from 'os';
 
 const router = express.Router();
@@ -26,6 +26,15 @@ router.put("/me",updateUserInfo);
 router.patch("/password",updateUserPassword);
 
 // USER INFO 
-router.post("/me",userInfo);    
+router.post("/me",userInfo); 
+
+//GET ALL USERS INFO -ONLY FOR USER
+router.get("/users",getAllUsers);  
+
+// UPDATE USER ROLE -ONLY FOR ADMIN
+router.put("/user/role",updateUserRole); 
+
+// DELET USER -ONLY FOR ADMIN
+router.delete("/user/:id",deleteUser); 
 
 export default router;

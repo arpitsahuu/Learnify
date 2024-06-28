@@ -25,7 +25,7 @@ import CourseData from "../models/coureModels/courseData";
 import Query from "../models/coureModels/questionModel";
 
 export const homepage = catchAsyncError(
-  (req: Request, res: Response, next: NextFunction) => {}
+  (req: Request, res: Response, next: NextFunction) => { }
 );
 
 // User Interface
@@ -103,7 +103,7 @@ interface IActivationCode {
 
 export const userActivation = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    let { activationCode , activation_token } = req.body as IActivationCode;
+    let { activationCode, activation_token } = req.body as IActivationCode;
     console.log(req.body)
 
     if (!activationCode)
@@ -111,8 +111,8 @@ export const userActivation = catchAsyncError(
 
     let { token } = req.cookies;
     console.log(req.cookies)
-    
-    if(!token){
+
+    if (!token) {
       token = activation_token
     }
     let tokenInof: { user: IRegistrationBody; ActivationCode: string } =
@@ -120,14 +120,14 @@ export const userActivation = catchAsyncError(
         user: IRegistrationBody;
         ActivationCode: string;
       };
-      console.log(tokenInof)
+    console.log(tokenInof)
     const isEmailExit = await User.findOne({ email: tokenInof.user.email });
     if (isEmailExit)
       return next(
         new errorHandler("User With This Email Address Already Exits")
       );
 
-      console.log(isEmailExit)
+    console.log(isEmailExit)
 
     if (activationCode != tokenInof?.ActivationCode)
       return next(new errorHandler("Wrong Activation Code"));
@@ -654,3 +654,70 @@ export const addQuestion = catchAsyncError(
 //         message: "Deleted User",
 //     });
 // });
+
+// GET ALL USERS - FOR ADMIN ONLY
+export const getAllUsers = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try{
+      const users = await User.find().sort({ createdAt: -1 });
+      
+      res.status(201).json({
+        success: true,
+        users,
+      });
+  } catch (error: any) {
+    return next(new errorHandler(error.message, 500));
+  }
+  }
+);
+
+// CHANGE USER ROLE - ONLY FOR ADMIN
+export const updateUserRole = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try{
+      const { email, role } = req.body;
+      const isUserExist = await User.findOne({ email });
+      if (isUserExist) {
+        const id = isUserExist._id;
+        const user = await User.findByIdAndUpdate(id, { role }, { new: true });
+        res.status(201).json({
+          success: true,
+          user,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+  } catch (error: any) {
+    return next(new errorHandler(error.message, 500));
+  }
+  }
+);
+
+// DELETE USER - ONLY FOR ADMIN
+export const deleteUser = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const user = await User.findById(id);
+
+      if (!user) {
+        return next(new errorHandler("User not found", 404));
+      }
+
+      await user.deleteOne({ id });
+
+      await redis.del(id);
+
+      res.status(200).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } catch (error: any) {
+      return next(new errorHandler(error.message, 400));
+    }
+  }
+);

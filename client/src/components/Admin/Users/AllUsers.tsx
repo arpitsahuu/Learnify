@@ -2,14 +2,14 @@ import React, { FC, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
-import { useTheme } from "next-themes";
+// import { useTheme } from "next-themes";
 import Loader from "../../Loader/Loader";
 import { format } from "timeago.js";
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
   useUpdateUserRoleMutation,
-} from "@/redux/features/user/userApi";
+} from "../../../Store/user/userApi";
 import { styles } from "@/app/styles/style";
 import { toast } from "react-hot-toast";
 
@@ -18,9 +18,11 @@ type Props = {
 };
 
 const AllCourses: FC<Props> = ({ isTeam }) => {
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [email, setEmail] = useState("");
+  const [theme, settheme] = useState("white");
+
   const [role, setRole] = useState("admin");
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
