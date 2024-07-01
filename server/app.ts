@@ -33,10 +33,11 @@ const multer = require("multer");
 /* router */
 import router from "./src/routes/userRouter";
 import courseRouter from "./src/routes/courseRouter";
+import layoutRouter from "./src/routes/layoutRouter";
 
 
 // app.use("/api/items", itemsRoutes);
-app.use("/api/v1", router,courseRouter);
+app.use("/api/v1", router,courseRouter,layoutRouter);
 
 /* 404 */
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

@@ -26,8 +26,6 @@ const categorySchema = new Schema<Category> ({
 });
 
 
-
-
 const layoutSchema = new Schema<Layout>({
    type:{type:String},
    faq: [faqSchema],
