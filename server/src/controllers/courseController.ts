@@ -6,6 +6,7 @@ import Course, {ICourse} from "../models/coureModels/courseModel"
 
 import cloudinary from "cloudinary";
 import { redis } from "../models/redis";
+import CourseData from "../models/coureModels/courseData";
 
 cloudinary.v2.config({
   cloud_name: "dcj2gzytt",
@@ -41,24 +42,68 @@ export const generateVideoUrl = catchAsyncError(
 export const uploadCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      let {
+        name,
+        description,
+        price,
+        categories,
+        estimatedPrice,
+        thumbnail,
+        tags,
+        level,
+        demoUrl,
+        benefits,
+        prerequisites,
+        reviews,
+        rating,
+        purchased,
+        totalVideos,
+        courseData,
+      } = req.body;
       const data = req.body;
       console.log(data)
-      const thumbnail = data.thumbnail;
+      const courseDataIds = [];
+      if (courseData && courseData.length > 0) {
+        for (const data of courseData) {
+          const newCourseData = new CourseData(data);
+          const savedCourseData = await newCourseData.save();
+          courseDataIds.push(savedCourseData._id);
+        }
+      }
       if (thumbnail) {
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
           folder: "courses",
         });
-        data.thumbnail = {
+        thumbnail = {
           public_id: myCloud.public_id,
           url: myCloud.secure_url,
         };
       }
-      console.log(data);
-      const course = await Course.create(data);
-      console.log(course)
+      // Create a new course instance with the created CourseData ObjectIds
+    const newCourse = new Course({
+      name,
+      description,
+      price,
+      categories,
+      estimatedPrice,
+      thumbnail,
+      tags,
+      level,
+      demoUrl,
+      benefits,
+      prerequisites,
+      reviews,
+      rating,
+      purchased,
+      totalVideos,
+      courseData: courseDataIds,
+    });
+
+    // Save the course to the database
+    const savedCourse = await newCourse.save();
       res.status(201).json({
         success:true,
-        course
+        course:savedCourse
       });
       
     } catch (error: any) {

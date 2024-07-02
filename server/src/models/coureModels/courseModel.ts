@@ -19,6 +19,7 @@ export interface ICourse extends Document {
   rating: number;
   purchased: number;
   totalVideos:number;
+  courseData:any[];
 }
 
 const courseSchema: Schema<ICourse> = new Schema({
@@ -51,6 +52,10 @@ const courseSchema: Schema<ICourse> = new Schema({
       // required: true
     }
   },
+  courseData:[ {
+    type: Schema.Types.ObjectId,
+    ref: 'courseData'
+  }],
   tags: {
     type: String,
     required: true

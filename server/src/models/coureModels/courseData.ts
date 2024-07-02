@@ -14,7 +14,7 @@ export interface ICourseData extends Document {
   title: string;
   videoSection: string;
   description: string;
-  videoLength: number;
+  videoLength: string;
   videoPlayer: string;
   links: [ILink];
   suggestion: string;
@@ -27,7 +27,7 @@ const courseDataSchema: Schema<ICourseData> = new Schema({
   title: String,
   videoSection: String,
   description: String,
-  videoLength: Number,
+  videoLength: String,
   videoPlayer: String,
   links: [{
     title:String,
@@ -44,6 +44,6 @@ const courseDataSchema: Schema<ICourseData> = new Schema({
   },
 });
 
-const CourseData = mongoose.model<ICourseData>("CourseData", courseDataSchema);
+const CourseData = mongoose.model<ICourseData>("courseData", courseDataSchema);
 
 export default CourseData;
