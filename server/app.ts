@@ -28,16 +28,16 @@ app.use(cors({
 	credentials: true,
 	optionsSuccessStatus: 200 ,// Address potential preflight request issues
 }));
-const multer = require("multer");
 
 /* router */
 import router from "./src/routes/userRouter";
 import courseRouter from "./src/routes/courseRouter";
 import layoutRouter from "./src/routes/layoutRouter";
+import analyticsRouter from "./src/routes/analyticsRouter";
 
 
 // app.use("/api/items", itemsRoutes);
-app.use("/api/v1", router,courseRouter,layoutRouter);
+app.use("/api/v1", router,courseRouter,layoutRouter,analyticsRouter);
 
 /* 404 */
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
