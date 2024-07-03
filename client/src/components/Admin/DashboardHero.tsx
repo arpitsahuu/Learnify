@@ -12,11 +12,11 @@ const DashboardHero = ({isDashboard}: Props) => {
   return (
     <div>
       <DashboardHeader open={open} setOpen={setOpen} />
-      {/* {
+      {
         isDashboard && (
           <DashboardWidgets open={open} />
         )
-      } */}
+      }
     </div>
   );
 };

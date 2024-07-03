@@ -4,11 +4,11 @@ import { BiBorderLeft } from "react-icons/bi";
 import { PiUsersFourLight } from "react-icons/pi";
 import { Box, CircularProgress } from "@mui/material";
 import OrdersAnalytics from "../Analytics/OrdersAnalytics";
-import AllInvoices from "../Order/AllInvoices";
-// import {
-//   useGetOrdersAnalyticsQuery,
-//   useGetUsersAnalyticsQuery,
-// } from "@/redux/features/analytics/analyticsApi";
+// import AllInvoices from "../Order/AllInvoices";
+import {
+  useGetOrdersAnalyticsQuery,
+  useGetUsersAnalyticsQuery,
+} from "../../../Store/analytics/analyticsApi";
 
 type Props = {
   open?: boolean;
@@ -46,50 +46,50 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
   const [ordersComparePercentage, setOrdersComparePercentage] = useState<any>();
   const [userComparePercentage, setuserComparePercentage] = useState<any>();
 
-  // const { data, isLoading } = useGetUsersAnalyticsQuery({});
-  // const { data: ordersData, isLoading: ordersLoading } =
-  //   useGetOrdersAnalyticsQuery({});
+  const { data, isLoading } = useGetUsersAnalyticsQuery({});
+  const { data: ordersData, isLoading: ordersLoading } =
+    useGetOrdersAnalyticsQuery({});
 
-  // useEffect(() => {
-  //   if (isLoading && ordersLoading) {
-  //     return;
-  //   } else {
-  //     if (data && ordersData) {
-  //       const usersLastTwoMonths = data.users.last12Months.slice(-2);
-  //       const ordersLastTwoMonths = ordersData.orders.last12Months.slice(-2);
+  useEffect(() => {
+    if (isLoading && ordersLoading) {
+      return;
+    } else {
+      if (data && ordersData) {
+        const usersLastTwoMonths = data.users.last12Months.slice(-2);
+        const ordersLastTwoMonths = ordersData.orders.last12Months.slice(-2);
 
-  //       if (
-  //         usersLastTwoMonths.length === 2 &&
-  //         ordersLastTwoMonths.length === 2
-  //       ) {
-  //         const usersCurrentMonth = usersLastTwoMonths[1].count;
-  //         const usersPreviousMonth = usersLastTwoMonths[0].count;
-  //         const ordersCurrentMonth = ordersLastTwoMonths[1].count;
-  //         const ordersPreviousMonth = ordersLastTwoMonths[0].count;
+        if (
+          usersLastTwoMonths.length === 2 &&
+          ordersLastTwoMonths.length === 2
+        ) {
+          const usersCurrentMonth = usersLastTwoMonths[1].count;
+          const usersPreviousMonth = usersLastTwoMonths[0].count;
+          const ordersCurrentMonth = ordersLastTwoMonths[1].count;
+          const ordersPreviousMonth = ordersLastTwoMonths[0].count;
 
-  //         const usersPercentChange = usersPreviousMonth !== 0 ?
-  //           ((usersCurrentMonth - usersPreviousMonth) / usersPreviousMonth) *
-  //           100 : 100;
+          const usersPercentChange = usersPreviousMonth !== 0 ?
+            ((usersCurrentMonth - usersPreviousMonth) / usersPreviousMonth) *
+            100 : 100;
 
-  //         const ordersPercentChange = ordersPreviousMonth !== 0 ?
-  //           ((ordersCurrentMonth - ordersPreviousMonth) / ordersPreviousMonth) *
-  //           100 : 100;
+          const ordersPercentChange = ordersPreviousMonth !== 0 ?
+            ((ordersCurrentMonth - ordersPreviousMonth) / ordersPreviousMonth) *
+            100 : 100;
 
-  //         setuserComparePercentage({
-  //           currentMonth: usersCurrentMonth,
-  //           previousMonth: usersPreviousMonth,
-  //           percentChange: usersPercentChange,
-  //         });
+          setuserComparePercentage({
+            currentMonth: usersCurrentMonth,
+            previousMonth: usersPreviousMonth,
+            percentChange: usersPercentChange,
+          });
 
-  //         setOrdersComparePercentage({
-  //           currentMonth: ordersCurrentMonth,
-  //           previousMonth: ordersPreviousMonth,
-  //           percentChange: ordersPercentChange,
-  //         });
-  //       }
-  //     }
-  //   }
-  // }, [isLoading, ordersLoading, data, ordersData]);
+          setOrdersComparePercentage({
+            currentMonth: ordersCurrentMonth,
+            previousMonth: ordersPreviousMonth,
+            percentChange: ordersPercentChange,
+          });
+        }
+      }
+    }
+  }, [isLoading, ordersLoading, data, ordersData]);
 
   return (
     <div className="mt-[30px] min-h-screen">
@@ -163,7 +163,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
           <h5 className="dark:text-[#fff] text-black text-[20px] font-[400] font-Poppins pb-3">
             Recent Transactions
           </h5>
-          <AllInvoices isDashboard={true} />
+          {/* <AllInvoices isDashboard={true} /> */}
         </div>
       </div>
     </div>

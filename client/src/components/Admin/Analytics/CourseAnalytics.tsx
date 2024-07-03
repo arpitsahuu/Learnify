@@ -9,7 +9,7 @@ import {
   LabelList,
 } from "recharts";
 import Loader from "../../Loader/Loader";
-import { useGetCoursesAnalyticsQuery } from "@/redux/features/analytics/analyticsApi";
+import { useGetCoursesAnalyticsQuery } from "../../../Store/analytics/analyticsApi";
 import { styles } from "@/app/styles/style";
 
 type Props = {};

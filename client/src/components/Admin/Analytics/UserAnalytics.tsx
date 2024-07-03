@@ -1,5 +1,5 @@
 import { styles } from "@/app/styles/style";
-import { useGetUsersAnalyticsQuery } from "@/redux/features/analytics/analyticsApi";
+import { useGetUsersAnalyticsQuery } from "../../../Store/analytics/analyticsApi";
 import React, { FC } from "react";
 import {
   AreaChart,
