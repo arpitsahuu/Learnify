@@ -195,9 +195,9 @@ export const getSingleCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const courseId = req.params.id;
+      console.log(courseId)
 
       const isCacheExist = await redis.get(courseId);
-
       if (isCacheExist) {
         const course = JSON.parse(isCacheExist);
         res.status(200).json({
@@ -205,7 +205,7 @@ export const getSingleCourse = catchAsyncError(
           course,
         });
       } else {
-        const course = await Course.findById(req.params.id).select(
+        const course = await Course.findById(req.params.id).populate("courseData").select(
           "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
         );
 

@@ -1,29 +1,29 @@
 import { styles } from "@/app/styles/style";
-import CoursePlayer from "@/app/utils/CoursePlayer";
-import Ratings from "@/app/utils/Ratings";
+import CoursePlayer from "../../components/utils/CoursePlayer";
+import Ratings from "../../components/utils/Ratings";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 import { format } from "timeago.js";
 import CourseContentList from "../Course/CourseContentList";
-import { Elements } from "@stripe/react-stripe-js";
-import CheckOutForm from "../Payment/CheckOutForm";
-import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+// import { Elements } from "@stripe/react-stripe-js";
+// import CheckOutForm from "../Payment/CheckOutForm";x
+import { useLoadUserQuery } from "../../Store/api/apiSlice";
 import Image from "next/image";
 import { VscVerifiedFilled } from "react-icons/vsc";
 
 type Props = {
   data: any;
-  stripePromise: any;
-  clientSecret: string;
+  // stripePromise: any;
+  // clientSecret: string;
   setRoute: any;
   setOpen: any;
 };
 
 const CourseDetails = ({
   data,
-  stripePromise,
-  clientSecret,
+  // stripePromise,
+  // clientSecret,
   setRoute,
   setOpen: openAuthModal,
 }: Props) => {
@@ -35,6 +35,8 @@ const CourseDetails = ({
     setUser(userData?.user);
   }, [userData]);
 
+  console.log(data)
+
   const dicountPercentenge =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
 
@@ -43,7 +45,7 @@ const CourseDetails = ({
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
 
-  const handleOrder = (e: any) => {
+  const x = (e: any) => {
     if (user) {
       setOpen(true);
     } else {
@@ -135,15 +137,17 @@ const CourseDetails = ({
               <div className="800px:flex items-center">
                 <Ratings rating={data?.ratings} />
                 <div className="mb-2 800px:mb-[unset]" />
+                {/* { data?.rating?.length !== 0 &&
                 <h5 className="text-[25px] font-Poppins text-black dark:text-white">
                   {Number.isInteger(data?.ratings)
                     ? data?.ratings.toFixed(1)
                     : data?.ratings.toFixed(2)}{" "}
                   Course Rating • {data?.reviews?.length} Reviews
                 </h5>
+                } */}
               </div>
               <br />
-              {(data?.reviews && [...data.reviews].reverse()).map(
+              {/* {(data?.reviews && [...data.reviews].reverse()).map(
                 (item: any, index: number) => (
                   <div className="w-full pb-4" key={index}>
                     <div className="flex">
@@ -210,7 +214,7 @@ const CourseDetails = ({
                     ))}
                   </div>
                 )
-              )}
+              )} */}
             </div>
           </div>
           <div className="w-full 800px:w-[35%] relative">
@@ -239,7 +243,7 @@ const CourseDetails = ({
                 ) : (
                   <div
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
-                    onClick={handleOrder}
+                    onClick={x}
                   >
                     Buy Now {data.price}$
                   </div>
@@ -263,7 +267,7 @@ const CourseDetails = ({
         </div>
       </div>
       <>
-        {open && (
+        {/* {open && (
           <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center">
             <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
               <div className="w-full flex justify-end">
@@ -282,7 +286,7 @@ const CourseDetails = ({
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </>
     </div>
   );
