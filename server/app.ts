@@ -34,10 +34,11 @@ import router from "./src/routes/userRouter";
 import courseRouter from "./src/routes/courseRouter";
 import layoutRouter from "./src/routes/layoutRouter";
 import analyticsRouter from "./src/routes/analyticsRouter";
+import orderRouter from "./src/routes/orderRouter";
 
 
 // app.use("/api/items", itemsRoutes);
-app.use("/api/v1", router,courseRouter,layoutRouter,analyticsRouter);
+app.use("/api/v1", router,courseRouter,layoutRouter,analyticsRouter,orderRouter);
 
 /* 404 */
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

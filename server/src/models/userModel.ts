@@ -2,6 +2,13 @@ import mongoose, {Document, Model, Schema} from "mongoose";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
+export interface payment_info {
+    courseID:string;
+    paymentID:string;
+    paymentTime:string;
+    paymentDate:Date;
+}
+
 export interface IUser extends Document {
   name: string;
   email: string;
@@ -16,6 +23,7 @@ export interface IUser extends Document {
   courses:Array<{courseId: string}>;
   password: string;
   refreshToken:string;
+//   payments:Array<payment_info>
   comparePassword: (password: string) => Promise<boolean>;
   generateAccesToken: () => string;
   generateRefreashToken:() => string;
@@ -73,7 +81,13 @@ const userModel: Schema<IUser> = new mongoose.Schema({
         type:String,
         emum:["user","admin"],
         default:'user'
-    }
+    },
+    // payments:[{
+    //     courseID:String,
+    //     paymentID:String,
+    //     paymentTime:String,
+    //     paymentDate:Date,
+    // }]
 
 } ,{timestamps:true});
 

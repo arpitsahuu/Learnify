@@ -11,6 +11,10 @@ import CourseContentList from "../Course/CourseContentList";
 import { useLoadUserQuery } from "../../Store/api/apiSlice";
 import Image from "next/image";
 import { VscVerifiedFilled } from "react-icons/vsc";
+import {
+  useCreatePaymentIntentMutation,
+  useGetRazorpayPublishablekeyQuery,
+} from "../../Store/orders/ordersApi";
 
 type Props = {
   data: any;
@@ -18,6 +22,7 @@ type Props = {
   // clientSecret: string;
   setRoute: any;
   setOpen: any;
+  ckeckout:any;
 };
 
 const CourseDetails = ({
@@ -26,6 +31,7 @@ const CourseDetails = ({
   // clientSecret,
   setRoute,
   setOpen: openAuthModal,
+  ckeckout
 }: Props) => {
   const { data: userData,refetch } = useLoadUserQuery(undefined, {});
   const [user, setUser] = useState<any>();
@@ -35,7 +41,6 @@ const CourseDetails = ({
     setUser(userData?.user);
   }, [userData]);
 
-  console.log(data)
 
   const dicountPercentenge =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
@@ -45,20 +50,62 @@ const CourseDetails = ({
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
 
-  const x = (e: any) => {
-    if (user) {
-      setOpen(true);
-    } else {
-      setRoute("Login");
-      openAuthModal(true);
-    }
+    const { data: config } = useGetRazorpayPublishablekeyQuery({});
+  const [createPaymentIntent, { data: paymentIntentData }] =
+    useCreatePaymentIntentMutation();
+
+  // const x = async (id:string) => {
+  //   if (user) {
+  //     // setOpen(true);
+  //     console.log("enter")
+  //     await ckeckout(id);
+  //   } else {
+  //     setRoute("Login");
+  //     openAuthModal(true);
+  //   }
+  // };
+  const x = async (e:any,id:string) =>{
+    e.preventDefault()
+    console.log(id)
+    await ckeckout(id)
+  }
+
+  const checkout = async (e:any, id: string): Promise<void> => {
+    const res = await createPaymentIntent(id);
+    console.log(res)
+    // console.log(paymentIntentData)
+
+    const options = {
+      key: data.key,
+      amount: res?.data?.order?.amount,
+      currency: "INR",
+      name: "Lernify",
+      description: "Online learning platform",
+      image: "https://avatars.githubusercontent.com/u/121677470?s=400&u=48419f81cd2899ec6353f7ee83aa00e28e8b9bfb&v=4",
+      order_id: res?.data?.order?.id,
+      callback_url: `http://localhost:4050/v1/api/paymentverification/${id}`,
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9999999999"
+      },
+      notes: {
+        address: "Razorpay Corporate Office"
+      },
+      theme: {
+        color: "#121212"
+      }
+    };
+
+    const razor = new window.Razorpay(options) ;
+    razor.open();
   };
 
   return (
     <div>
-      <div className="w-[90%] 800px:w-[90%] m-auto py-5">
-        <div className="w-full flex flex-col-reverse 800px:flex-row">
-          <div className="w-full 800px:w-[65%] 800px:pr-5">
+      <div className="w-[90%] sm:w-[90%] m-auto py-5">
+        <div className="w-full flex flex-col-reverse sm:flex-row">  
+          <div className="w-full sm:w-[65%] sm:pr-5">
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
               {data.name}
             </h1>
@@ -81,7 +128,7 @@ const CourseDetails = ({
             <div>
               {data.benefits?.map((item: any, index: number) => (
                 <div
-                  className="w-full flex 800px:items-center py-2"
+                  className="w-full flex sm:items-center py-2"
                   key={index}
                 >
                   <div className="w-[15px] mr-1">
@@ -102,7 +149,7 @@ const CourseDetails = ({
               What are the prerequisites for starting this course?
             </h1>
             {data.prerequisites?.map((item: any, index: number) => (
-              <div className="w-full flex 800px:items-center py-2" key={index}>
+              <div className="w-full flex sm:items-center py-2" key={index}>
                 <div className="w-[15px] mr-1">
                   <IoCheckmarkDoneOutline
                     size={20}
@@ -134,9 +181,9 @@ const CourseDetails = ({
             <br />
             <br />
             <div className="w-full">
-              <div className="800px:flex items-center">
+              <div className="sm:flex items-center">
                 <Ratings rating={data?.ratings} />
-                <div className="mb-2 800px:mb-[unset]" />
+                <div className="mb-2 sm:mb-[unset]" />
                 {/* { data?.rating?.length !== 0 &&
                 <h5 className="text-[25px] font-Poppins text-black dark:text-white">
                   {Number.isInteger(data?.ratings)
@@ -164,7 +211,7 @@ const CourseDetails = ({
                           className="w-[50px] h-[50px] rounded-full object-cover"
                         />
                       </div>
-                      <div className="hidden 800px:block pl-2">
+                      <div className="hidden sm:block pl-2">
                         <div className="flex items-center">
                           <h5 className="text-[18px] pr-2 text-black dark:text-white">
                             {item.user.name}
@@ -178,7 +225,7 @@ const CourseDetails = ({
                           {format(item.createdAt)} •
                         </small>
                       </div>
-                      <div className="pl-2 flex 800px:hidden items-center">
+                      <div className="pl-2 flex sm:hidden items-center">
                         <h5 className="text-[18px] pr-2 text-black dark:text-white">
                           {item.user.name}
                         </h5>
@@ -186,7 +233,7 @@ const CourseDetails = ({
                       </div>
                     </div>
                     {item.commentReplies.map((i: any, index: number) => (
-                      <div className="w-full flex 800px:ml-16 my-5" key={index}>
+                      <div className="w-full flex sm:ml-16 my-5" key={index}>
                         <div className="w-[50px] h-[50px]">
                           <Image
                             src={
@@ -217,15 +264,15 @@ const CourseDetails = ({
               )} */}
             </div>
           </div>
-          <div className="w-full 800px:w-[35%] relative">
+          <div className="w-full sm:w-[35%] relative">
             <div className="sticky top-[100px] left-0 z-50 w-full">
               <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
               <div className="flex items-center">
                 <h1 className="pt-5 text-[25px] text-black dark:text-white">
-                  {data.price === 0 ? "Free" : data.price + "$"}
+                  {data.price === 0 ? "Free" : data.price + "₹"}
                 </h1>
                 <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80 text-black dark:text-white">
-                  {data.estimatedPrice}$
+                  {data.estimatedPrice}₹
                 </h5>
 
                 <h4 className="pl-5 pt-4 text-[22px] text-black dark:text-white">
@@ -243,9 +290,9 @@ const CourseDetails = ({
                 ) : (
                   <div
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
-                    onClick={x}
+                    onClick={(e)=>checkout(e,data._id)}
                   >
-                    Buy Now {data.price}$
+                    Buy Now {data.price}₹
                   </div>
                 )}
               </div>
@@ -259,7 +306,7 @@ const CourseDetails = ({
               <p className="pb-1 text-black dark:text-white">
                 • Certificate of completion
               </p>
-              <p className="pb-3 800px:pb-1 text-black dark:text-white">
+              <p className="pb-3 sm:pb-1 text-black dark:text-white">
                 • Premium Support
               </p>
             </div>

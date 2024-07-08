@@ -5,10 +5,10 @@ import Heading from "../../components/utils/Heading";
 import Header from "../Navbar";
 // import Footer from "../Footer";
 import CourseDetails from "./CourseDetails";
-// import {
-//   useCreatePaymentIntentMutation,
-//   useGetStripePublishablekeyQuery,
-// } from "../../Store/";
+import {
+  useCreatePaymentIntentMutation,
+  useGetRazorpayPublishablekeyQuery,
+} from "../../Store/orders/ordersApi";
 // import { loadStripe } from "@stripe/stripe-js";
 import { useLoadUserQuery } from "../../Store/api/apiSlice";
 
@@ -20,9 +20,9 @@ const CourseDetailsPage = ({ id }: Props) => {
   const [route, setRoute] = useState("Login");
   const [open, setOpen] = useState(false);
   const { data, isLoading } = useGetCourseDetailsQuery(id);
-  // const { data: config } = useGetStripePublishablekeyQuery({});
-  // const [createPaymentIntent, { data: paymentIntentData }] =
-  //   useCreatePaymentIntentMutation();
+  const { data: config } = useGetRazorpayPublishablekeyQuery({});
+  const [createPaymentIntent, { data: paymentIntentData }] =
+    useCreatePaymentIntentMutation();
   const { data: userData } = useLoadUserQuery(undefined, {});
   const [stripePromise, setStripePromise] = useState<any>(null);
   const [clientSecret, setClientSecret] = useState("");
@@ -43,8 +43,65 @@ const CourseDetailsPage = ({ id }: Props) => {
   //     setClientSecret(paymentIntentData?.client_secret);
   //   }
   // }, [paymentIntentData]);
-  console.log(data)
 
+  interface Order {
+    id: string;
+    amount: number;
+  }
+  
+  interface Options {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    image: string;
+    order_id: string;
+    callback_url: string;
+    prefill: {
+      name: string;
+      email: string;
+      contact: string;
+    };
+    notes: {
+      address: string;
+    };
+    theme: {
+      color: string;
+    };
+  }
+  
+  const checkout = async ( id: string): Promise<void> => {
+    await createPaymentIntent(id);
+    console.log(paymentIntentData)
+
+    const options: Options = {
+      key: data.key,
+      amount: paymentIntentData.amount,
+      currency: "INR",
+      name: "Lernify",
+      description: "Online learning platform",
+      image: "https://avatars.githubusercontent.com/u/25058652?v=4",
+      order_id: paymentIntentData.id,
+      callback_url: "http://localhost:4050/v1/api/paymentverification",
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9999999999"
+      },
+      notes: {
+        address: "Razorpay Corporate Office"
+      },
+      theme: {
+        color: "#121212"
+      }
+    };
+
+    const razor = new window.Razorpay(options) ;
+    razor.open();
+  };
+
+  
   return (
     <>
       {isLoading ? (
@@ -72,6 +129,7 @@ const CourseDetailsPage = ({ id }: Props) => {
               // clientSecret={clientSecret}
               setRoute={setRoute}
               setOpen={setOpen}
+              ckeckout={checkout}
             />
           )}
           {/* <Footer /> */}

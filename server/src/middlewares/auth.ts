@@ -4,11 +4,20 @@ import ErrorHandler from "../utils/errorHandler";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redis } from "../models/redis";
 import errorHandler from "../utils/errorHandler";
+import { IUser } from "../models/userModel";
 // import { updateAccessToken } from "../controllers/user.controller";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser; // Define the user property on the Request object
+    }
+  }
+}
 
 // authenticated user
 export const isAutheticated = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request<any>, res: Response, next: NextFunction) => {
     const accessToken = req.cookies.accessToken as string;
 
     if (!accessToken) {
@@ -31,17 +40,19 @@ export const isAutheticated = catchAsyncError(
         return next(error);
       }
     } else {
-      const user = await redis.get(decoded.id);
-
+      const user = await redis.get(decoded._id);
       if (!user) {
         return next(
           new ErrorHandler("Please login to access this resource", 400)
         );
       }
-      console.log(user)
+      const curruser = await JSON.parse(user)
 
-      // req.user = JSON.parse(user);
-
+      
+      if(curruser && user){
+        req.user = curruser
+      }
+      
       next();
     }
   }

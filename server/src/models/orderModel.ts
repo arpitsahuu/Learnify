@@ -21,7 +21,10 @@ const orderSchema: Schema<IOrder> = new Schema(
       required: true
     },
     paymentInfo: {
-      type: Object
+      type: Object,
+      razorpay_order_id:String,
+      razorpay_payment_id:String,
+      razorpay_signature:String,
     }
   },
   { timestamps: true }

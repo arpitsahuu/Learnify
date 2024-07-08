@@ -1,6 +1,7 @@
 import express from 'express';
 import { deleteUser, getAllUsers, updateUserInfo, updateUserPassword, updateUserRole, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
 import { userInfo } from 'os';
+import { isAutheticated } from '../middlewares/auth';
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.post("/login",userLogin);
 router.get("/logout",userLongOut);
 
 // USER INFO 
-router.get("/me",userInfo);
+router.get("/me",isAutheticated, userInfo);
 
 // UPDATE USER INFO 
 router.put("/me",updateUserInfo);
@@ -26,7 +27,7 @@ router.put("/me",updateUserInfo);
 router.patch("/password",updateUserPassword);
 
 // USER INFO 
-router.post("/me",userInfo); 
+router.post("/me",isAutheticated, userInfo); 
 
 //GET ALL USERS INFO -ONLY FOR USER
 router.get("/users",getAllUsers);  
