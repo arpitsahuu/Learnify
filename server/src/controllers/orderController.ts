@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsyncError } from "../middlewares/catchAsyncError";
 import errorHandler from "../utils/errorHandler";
-import axios from "axios";
-import { redis } from "../models/redis";
-import LayoutModel from "../models/layout.model";
 import { instance } from "../utils/razorpayConfig";
 import Course, { ICourse } from "../models/coureModels/courseModel";
 import crypto from "crypto";
@@ -11,6 +8,8 @@ import User from "../models/userModel";
 import Order from "../models/orderModel";
 import sendmail from "../utils/sendmail";
 import Notification from "../models/notificationModel";
+import dotenv from 'dotenv';
+dotenv.config();
 
 // CREATET ORDER
 export const checkout = catchAsyncError(
@@ -53,22 +52,30 @@ export const getRozorpaykey = catchAsyncError(
 export const paymentVerification = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      console.log(req.body)
       const {
         razorpay_order_id,
         razorpay_payment_id,
         razorpay_signature,
       } = req.body;
 
-      let courseId =  req.params.id ;
+      let courseId = req.params.id ;
+      console.log(courseId)
+
+      console.log('RAZORPAY_API_SECRA:', process.env.RAZORPAY_API_SECRAT);
 
       const body = razorpay_order_id + "|" + razorpay_payment_id;
+      console.log(body)
 
-      const expectedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_APT_SECRET as string)
+      const expectedSignature = await crypto
+        .createHmac("sha256", process.env.RAZORPAY_API_SECRAT as string)
         .update(body.toString())
         .digest("hex");
 
+        console.log(expectedSignature)
+
       const isAuthentic = expectedSignature === razorpay_signature;
+      console.log(isAuthentic)
 
       if (!isAuthentic) {
         return next(new errorHandler("Payment not authorized!", 400));
@@ -91,29 +98,42 @@ export const paymentVerification = catchAsyncError(
             razorpay_signature,
           },
         });
+        console.log(order)
 
-        
+        const maildata = {
+          name:course.name,
+          orde_id:order._id,
+          course:course.price,
+          order:{
+            name:course.name,
+          orde_id:order._id,
+          price:course.price,
+          }
+        }
+
+        console.log("mail")
 
         //SEND MEAI FOR SUCCESSFULL COURSE PURCHASE 
         try {
-          if (user) {
+          if (req?.user) {
             await sendmail(
               next,
               user?.email as string,
               "Verification code",
               "order-confirmation.ejs",
-              order
+              maildata
             );
           }
         } catch (error: any) {
           return next(new errorHandler(error.message, 500));
         }
-
+        console.log("send mail")
         await Notification.create({
           title:"New Order",
           message:`You have a new order from ${course?.name}`,
           user:user?._id
         })
+        console.log("noteficarion")
         if(course){
           course.purchased = course?.purchased +1 ;
           await course.save();

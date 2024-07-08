@@ -52,23 +52,23 @@ export const isAutheticated = catchAsyncError(
       if(curruser && user){
         req.user = curruser
       }
-      
+
       next();
     }
   }
 );
 
 // validate user role
-// export const authorizeRoles = (...roles: string[]) => {
-//   return (req: Request, res: Response, next: NextFunction) => {
-//     if (!roles.includes(req.user?.role || "")) {
-//       return next(
-//         new errorHandler(
-//           `Role: ${req.user?.role} is not allowed to access this resource`,
-//           403
-//         )
-//       );
-//     }
-//     next();
-//   };
-// };
+export const authorizeRoles = (...roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes(req.user?.role || "")) {
+      return next(
+        new errorHandler(
+          `Role: ${req.user?.role} is not allowed to access this resource`,
+          403
+        )
+      );
+    }
+    next();
+  };
+};

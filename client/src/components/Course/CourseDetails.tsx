@@ -83,14 +83,13 @@ const CourseDetails = ({
       description: "Online learning platform",
       image: "https://avatars.githubusercontent.com/u/121677470?s=400&u=48419f81cd2899ec6353f7ee83aa00e28e8b9bfb&v=4",
       order_id: res?.data?.order?.id,
-      callback_url: `http://localhost:4050/v1/api/paymentverification/${id}`,
+      callback_url: `http://localhost:4050/api/v1/paymentVerification/${data._id}`,
       prefill: {
         name: "Gaurav Kumar",
         email: "gaurav.kumar@example.com",
-        contact: "9999999999"
       },
       notes: {
-        address: "Razorpay Corporate Office"
+        address: "Razorpay Corporate Office"  
       },
       theme: {
         color: "#121212"
