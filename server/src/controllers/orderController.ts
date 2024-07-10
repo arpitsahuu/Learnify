@@ -17,6 +17,7 @@ export const checkout = catchAsyncError(
     try {
       console.log(req.body);
       const { id } = req.body;
+      console.log(id)
       // const user = req.user;
       const course = await Course.findById(id);
       if (!course) {

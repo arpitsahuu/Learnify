@@ -71,35 +71,35 @@ const CourseDetailsPage = ({ id }: Props) => {
     };
   }
   
-  const checkout = async ( id: string): Promise<void> => {
-    await createPaymentIntent(id);
-    console.log(paymentIntentData)
+  // const checkout = async ( id: string): Promise<void> => {
+  //   await createPaymentIntent(id);
+  //   console.log(paymentIntentData)
 
-    const options: Options = {
-      key: data.key,
-      amount: paymentIntentData.amount,
-      currency: "INR",
-      name: "Lernify",
-      description: "Online learning platform",
-      image: "https://avatars.githubusercontent.com/u/25058652?v=4",
-      order_id: paymentIntentData.id,
-      callback_url: "http://localhost:4050/v1/api/paymentverification",
-      prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com",
-        contact: "9999999999"
-      },
-      notes: {
-        address: "Razorpay Corporate Office"
-      },
-      theme: {
-        color: "#121212"
-      }
-    };
+  //   const options: Options = {
+  //     key: data.key,
+  //     amount: paymentIntentData.amount,
+  //     currency: "INR",
+  //     name: "Lernify",
+  //     description: "Online learning platform",
+  //     image: "https://avatars.githubusercontent.com/u/25058652?v=4",
+  //     order_id: paymentIntentData.id,
+  //     callback_url: "http://localhost:4050/v1/api/paymentverification",
+  //     prefill: {
+  //       name: "Gaurav Kumar",
+  //       email: "gaurav.kumar@example.com",
+  //       contact: "9999999999"
+  //     },
+  //     notes: {
+  //       address: "Razorpay Corporate Office"
+  //     },
+  //     theme: {
+  //       color: "#121212"
+  //     }
+  //   };
 
-    const razor = new window.Razorpay(options) ;
-    razor.open();
-  };
+  //   const razor = new window.Razorpay(options) ;
+  //   razor.open();
+  // };
 
   
   return (
@@ -129,7 +129,7 @@ const CourseDetailsPage = ({ id }: Props) => {
               // clientSecret={clientSecret}
               setRoute={setRoute}
               setOpen={setOpen}
-              ckeckout={checkout}
+              // ckeckout={checkout}
             />
           )}
           {/* <Footer /> */}

@@ -1,16 +1,3 @@
-// const { catchAsyncErron } = require("../middlewares/catchAsyncError");
-// const errorHandler = require("../utils/errorHandler");
-// const User = require("../models/userModel");
-// const sendmail = require("../utils/sendmail");
-// const activationToken = require("../utils/activationToken");
-// const jwt = require("jsonwebtoken");
-// const generateTokens = require("../utils/generateTokens");
-// const redis = require("../models/redis");
-// const cloudinary = require("cloudinary").v2;
-// const Course = require("../models/coureModels/courseModel");
-// const CourseData = require("../models/coureModels/courseData");
-// const Query = require("../models/coureModels/questionModel");
-// const Review = require("../models/coureModels/reviewModel");
 import { catchAsyncError } from "../middlewares/catchAsyncError";
 import errorHandler from "../utils/errorHandler";
 import User, { IUser } from "../models/userModel";
@@ -263,42 +250,25 @@ export const userLongOut = catchAsyncError(
 
 // TO GET USERS INFORMATION.
 
-export const userInfo = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
-
-    // Attempt to retrieve user data from Redis
-    let user = await redis.get(id);
-
-    // If user data is not found in Redis
-    if (!user) {
-      try {
-        // Attempt to find user in MongoDB
-        const foundUser: IUser | null = await User.findById(id);
-
-        // If user not found in MongoDB, return an error
-        if (!foundUser) return next(new errorHandler("User not found", 404));
-
-        // Convert user object to string and set it in Redis
-        await redis.set(id, JSON.stringify(foundUser));
-
-        // Send user data in the response
-        return res.status(200).json({
-          success: true,
-          user: foundUser,
-        });
-      } catch (error: any) {
-        // If an error occurs during database query, pass it to the error handler middleware
-        return next(new errorHandler(error.message, 500));
+export const getUserInfo = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      console.log(req.user)
+      const user = req.user;
+      if(!user){
+        next(new errorHandler("user not lonin",401))
       }
-    }
 
-    return res.status(200).json({
-      success: true,
-      user: user,
-    });
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error: any) {
+      return next(new errorHandler(error.message, 500));
+    }
   }
 );
+
 
 // exports.socialAuth = catchAsyncErron(async (req, res, next) => {
 //   try {

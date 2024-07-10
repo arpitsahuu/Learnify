@@ -22,7 +22,6 @@ type Props = {
   // clientSecret: string;
   setRoute: any;
   setOpen: any;
-  ckeckout:any;
 };
 
 const CourseDetails = ({
@@ -31,16 +30,14 @@ const CourseDetails = ({
   // clientSecret,
   setRoute,
   setOpen: openAuthModal,
-  ckeckout
 }: Props) => {
-  const { data: userData,refetch } = useLoadUserQuery(undefined, {});
+  const { data: userData, refetch } = useLoadUserQuery(undefined, {});
   const [user, setUser] = useState<any>();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setUser(userData?.user);
   }, [userData]);
-
 
   const dicountPercentenge =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
@@ -49,8 +46,9 @@ const CourseDetails = ({
 
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
+  console.log(isPurchased)
 
-    const { data: config } = useGetRazorpayPublishablekeyQuery({});
+  const { data: config } = useGetRazorpayPublishablekeyQuery({});
   const [createPaymentIntent, { data: paymentIntentData }] =
     useCreatePaymentIntentMutation();
 
@@ -64,13 +62,7 @@ const CourseDetails = ({
   //     openAuthModal(true);
   //   }
   // };
-  const x = async (e:any,id:string) =>{
-    e.preventDefault()
-    console.log(id)
-    await ckeckout(id)
-  }
-
-  const checkout = async (e:any, id: string): Promise<void> => {
+  const checkout = async (e: any, id: string): Promise<void> => {
     const res = await createPaymentIntent(id);
     console.log(res)
     // console.log(paymentIntentData)
@@ -89,21 +81,36 @@ const CourseDetails = ({
         email: "gaurav.kumar@example.com",
       },
       notes: {
-        address: "Razorpay Corporate Office"  
+        address: "Razorpay Corporate Office"
       },
       theme: {
         color: "#121212"
       }
     };
 
-    const razor = new window.Razorpay(options) ;
+    const razor = new window.Razorpay(options);
     razor.open();
   };
+
+  
+  const x = async (e: any, id: string) => {
+    e.preventDefault()
+    console.log("enter")
+    if (user) {
+      setOpen(true);
+      await checkout(e,id);
+    } else {
+      console.log("enter else")
+      setRoute("Login");
+      openAuthModal(true);
+    }
+  }
+
 
   return (
     <div>
       <div className="w-[90%] sm:w-[90%] m-auto py-5">
-        <div className="w-full flex flex-col-reverse sm:flex-row">  
+        <div className="w-full flex flex-col-reverse sm:flex-row">
           <div className="w-full sm:w-[65%] sm:pr-5">
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
               {data.name}
@@ -289,7 +296,7 @@ const CourseDetails = ({
                 ) : (
                   <div
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
-                    onClick={(e)=>checkout(e,data._id)}
+                    onClick={(e) => x(e, data._id)}
                   >
                     Buy Now {data.price}₹
                   </div>

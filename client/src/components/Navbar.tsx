@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import CustomModal from "./utils/CustomModal";
 import Login from "./Auths/Login";
 import Signup from "./Auths/SignUp";
@@ -18,6 +18,8 @@ type Props = {
 const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const linkData: string[] = ["Service", "Our Work", "About us"];
   const {data:userData,isLoading,refetch} = useLoadUserQuery(undefined,{});
+  const [state,setstate] = useState(true)
+  console.log(userData)
   return (
     <nav className="w-full px-20 py-5 flex justify-between items-center font-['Neue Montreal'] absolute top-0">
       <div className="logo">  
@@ -29,15 +31,17 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
           <Link
             key={index}
             href="/"
-            className={` text-lg capitalize ${index === 3 && "ml-32"}`}
+            className={`text-lg capitalize ${index === 3 && "ml-32"}`}
           >
             {item}
           </Link>
         ))}
         {/* { userData ?
-        <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> : <button>profile</button>
+        <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> : <button>{userData?.user.name}</button>
          } */}
-         <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button>
+         {userData? <button>{userData?.user?.name}</button>:<button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> }
+         
+         {/* <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> */}
       </div>
       {route === "Login" && (
         <>

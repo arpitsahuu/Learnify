@@ -70,6 +70,7 @@ export const uploadCourse = catchAsyncError(
           courseDataIds.push(savedCourseData._id);
         }
       }
+      const ismg =req.file;
       if (thumbnail) {
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
           folder: "courses",
@@ -241,35 +242,37 @@ export const getAllCourses = catchAsyncError(
 );
 
 //get course content -- only for valid user
-// export const getCourseByUser = catchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//     try {
-//       const userCourseList = req.user?.courses;
-//       const courseId = req.params.id;
+export const getCourseByUser = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userCourseList = req.user?.courses;
+      const courseId = req.params.id;
 
-//       const courseExists = userCourseList?.find(
-//         (course: any) => course._id.toString() === courseId
-//       );
+      const courseExists = userCourseList?.find(
+        (course: any) => course._id.toString() === courseId
+      );
 
-//       if (!courseExists) {
-//         return next(
-//           new errorHandler("You are not eligible to access this course", 404)
-//         );
-//       }
+      if (!courseExists) {
+        return next(
+          new errorHandler("You are not eligible to access this course", 404)
+        );
+      }
 
-//       const course = await Course.findById(courseId);
+      const course = await Course.findById(courseId).populate("courseData");
 
-//       // const content = course?.courseData;
+      const content = course?.courseData;
 
-//       // res.status(200).json({
-//       //   success: true,
-//       //   content,
-//       // });
-//     } catch (error: any) {
-//       return next(new errorHandler(error.message, 500));
-//     }
-//   }
-// );
+      console.log(content)
+
+      res.status(200).json({
+        success: true,
+        content,
+      });
+    } catch (error: any) {
+      return next(new errorHandler(error.message, 500));
+    }
+  }
+);
 
 
 // get all courses --- only for admin
