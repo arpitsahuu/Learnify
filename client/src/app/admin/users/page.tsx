@@ -11,7 +11,7 @@ type Props = {}
 const page = (props: Props) => {
   return (
     <div>
-      {/* <AdminProtected> */}
+      <AdminProtected>
         <Heading
           title="Lernify - Admin"
           description="Lernify is a platform for students to learn and get help from teachers"
@@ -26,7 +26,7 @@ const page = (props: Props) => {
             <AllUsers />
           </div>
         </div>
-      {/* </AdminProtected> */}
+      </AdminProtected>
     </div>
   )
 }

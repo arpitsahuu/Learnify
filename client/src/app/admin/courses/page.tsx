@@ -12,7 +12,7 @@ const page = (props: Props) => {
   
   return (
     <div>
-      {/* <AdminProtected> */}
+      <AdminProtected>
         <Heading
           title="Elearning - Admin"
           description="ELearning is a platform for students to learn and get help from teachers"
@@ -27,7 +27,7 @@ const page = (props: Props) => {
             <AllCourses />
           </div>
         </div>
-      {/* </AdminProtected> */}
+      </AdminProtected>
     </div>
   )
 }

@@ -16,7 +16,7 @@ type Props = {
 };
 
 const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
-  const linkData: string[] = ["Service", "Our Work", "About us"];
+  const linkData: string[] = ["Service", "About us", "admin"];
   const {data:userData,isLoading,refetch} = useLoadUserQuery(undefined,{});
   const [state,setstate] = useState(true)
   console.log(userData)
@@ -30,12 +30,13 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         {linkData.map((item, index) => (
           <Link
             key={index}
-            href="/"
+            href={item} 
             className={`text-lg capitalize ${index === 3 && "ml-32"}`}
           >
             {item}
           </Link>
         ))}
+        {/* <Link href="/admin">Dasboard</Link> */}
         {/* { userData ?
         <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> : <button>{userData?.user.name}</button>
          } */}

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-// import AdminProtected from "../hooks/adminProtected";
+import AdminProtected from "../hooks/adminProtected";
 // import DashboardHero from "../components/Admin/DashboardHero";
 import Heading from "@/components/utils/Heading";
 import AdminSidebar from "@/components/Admin/sidebar/AdminSidebar";
@@ -11,7 +11,7 @@ type Props = {};
 const page = (props: Props) => {
   return (
     <div>
-      {/* <AdminProtected> */}
+      <AdminProtected>
         <Heading
           title="Elearning - Admin"
           description="ELearning is a platform for students to learn and get help from teachers"
@@ -25,7 +25,7 @@ const page = (props: Props) => {
             <DashboardHero isDashboard={true} />
           </div>
         </div>
-      {/* </AdminProtected> */}
+      </AdminProtected>
     </div>
   );
 };
