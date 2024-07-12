@@ -96,11 +96,11 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
       flex: 0.2,
       renderCell: (params: any) => {
         return (
-          <>
+          <div className="flex items-center justify-center h-full">
             <a href={`mailto:${params.row.email}`}>
               <AiOutlineMail className="dark:text-white text-black" size={20} />
             </a>
-          </>
+          </div>
         );
       },
     },
