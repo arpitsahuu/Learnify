@@ -1,8 +1,8 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
-// import "react-pro-sidebar/dist/css/styles.css";
+import "react-pro-sidebar/dist/css/styles.css";
 import {
   HomeOutlinedIcon,
   ArrowForwardIosIcon,
@@ -48,11 +48,15 @@ const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const AdminSidebar = () => {
-  // const { user } = useSelector((state: any) => state.auth);
-  const [user,setuser] = useState(null);
+type Props = {
+  isCollapsed?: boolean;
+  setIsCollapsed?: any
+};
+
+const Sidebar = ({isCollapsed,setIsCollapsed}:Props) => {
+  const { user } = useSelector((state: any) => state.auth);
   const [logout, setlogout] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const [mounted, setMounted] = useState(false);
   // const { theme, setTheme } = useTheme();
@@ -89,12 +93,12 @@ const AdminSidebar = () => {
           opacity: 1,
         },
         "& .pro-menu-item": {
-          // color: `${theme !== "dark" && "#000"}`,
+          color: "#000" ,
         },
       }}
       className="!bg-white dark:bg-[#111C43]"
     >
-      <Sidebar
+      <ProSidebar
         collapsed={isCollapsed}
         style={{
           position: "fixed",
@@ -105,9 +109,7 @@ const AdminSidebar = () => {
           width: isCollapsed ? "0%" : "16%",
         }}
       >
-        {/* iconShape="square" 
-         "add in the menu"*/}
-        <Menu >
+        <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -142,7 +144,7 @@ const AdminSidebar = () => {
                   alt="profile-user"
                   width={100}
                   height={100}
-                  src={avatarDefault}
+                  src={user.avatar ? user.avatar.url : avatarDefault}
                   style={{
                     cursor: "pointer",
                     borderRadius: "50%",
@@ -156,15 +158,14 @@ const AdminSidebar = () => {
                   className="!text-[20px] text-black dark:text-[#ffffffc1]"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {/* {user?.name} */}
-                  {"Arpit Sahu"}
+                  {user?.name}
                 </Typography>
                 <Typography
                   variant="h6"
                   sx={{ m: "10px 0 0 0" }}
                   className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize"
                 >
-                  - {"admin"}
+                  - {user?.role}
                 </Typography>
               </Box>
             </Box>
@@ -316,9 +317,9 @@ const AdminSidebar = () => {
             </div>
           </Box>
         </Menu>
-      </Sidebar>
+      </ProSidebar>
     </Box>
   );
 };
 
-export default AdminSidebar;
+export default Sidebar;
