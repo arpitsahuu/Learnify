@@ -108,6 +108,7 @@ userModel.methods.generateAccesToken = function(){
     const token :string = process.env.ACCESS_TOKEN_SECRET || "";
     return jwt.sign({
         _id:this._id,
+        email:this.email, 
     },
     token,
     { expiresIn:process.env.ACCESS_TOKEN_EXPIRY});
@@ -118,8 +119,6 @@ userModel.methods.generateRefreashToken =  function(){
     const token :string = process.env.REFRESH_TOKEN_SECRET || "";
     return jwt.sign({
         _id:this._id,
-        email:this.email,
-        contant:this.contact  
     },token,
     { expiresIn: process.env.REFRESH_TOKEN_EXPIRY});
 }

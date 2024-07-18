@@ -5,7 +5,7 @@ import { Interface } from "readline";
 import { NextFunction, Request, Response } from "express";
 import sendmail from "../utils/sendmail";
 import { activationToken } from "../utils/activationToken";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { generateTokens } from "../utils/generateTokens";
 import { redis } from "../models/redis";
 import CourseData from "../models/coureModels/courseData";
@@ -229,6 +229,70 @@ export const userLongOut = catchAsyncError(
       });
   }
 );
+
+export const updateAccessToken = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const incomingRefreshToken = req.cookies.refreshToken as string;
+      if(!incomingRefreshToken){
+        return next(new errorHandler("unathorized request",401))
+      }
+
+      const decoded = jwt.verify(
+        incomingRefreshToken,
+        process.env.REFRESH_TOKEN_SECRET as string
+      ) as JwtPayload;
+
+
+      if (!decoded) {
+        return next(new errorHandler("Invalid Refresh Token", 401));
+      }
+      
+      const user = await User.findById(decoded._id);
+
+      if(!user){
+        return next(new errorHandler("Invalid Refresh Token", 401))
+      }
+
+      if(user?.refreshToken !== incomingRefreshToken ){
+        return next(new errorHandler("Refresh Token is expired or used", 401));
+      }
+
+      
+         
+      const tokens = generateTokens(user);
+
+      user.refreshToken = tokens.refreshToken;
+      await user.save();
+      user.password = "";
+
+      await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
+  
+      const options = {
+        httpOnly: true,
+        secure: true,
+      };
+  
+      res
+        .status(200)
+        .cookie("accessToken", tokens?.accessToken, options)
+        .cookie("refreshToken", tokens?.refreshToken, options)
+        .json({
+          succcess: true,
+          message: "Update AccessToken",
+          accesToken: tokens?.accessToken,
+          refreshToken: tokens?.accessToken,
+        });
+
+        return next()
+
+    } catch (error: any) {
+      return next(new errorHandler(error.message, 401));
+    }
+  }
+);
+
+
 
 // export const refresh = catchAsyncError(async (rreq:Request, res:Response, next:NextFunction) => {
 //   const token =

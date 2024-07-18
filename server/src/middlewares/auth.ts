@@ -5,7 +5,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { redis } from "../models/redis";
 import errorHandler from "../utils/errorHandler";
 import { IUser } from "../models/userModel";
-// import { updateAccessToken } from "../controllers/user.controller";
+import { updateAccessToken } from "../controllers/userController";
 
 declare global {
   namespace Express {
@@ -33,9 +33,9 @@ export const isAutheticated = catchAsyncError(
     }
 
     // check if the access token is expired
-    if (decoded.exp && decoded.exp <= Date.now() / 1000) {
+    if (decoded.exp && decoded.exp <= Date.now() / 1000 ) {
       try {
-        // await updateAccessToken(req, res, next);
+        await updateAccessToken(req, res, next);
       } catch (error) {
         return next(error);
       }
