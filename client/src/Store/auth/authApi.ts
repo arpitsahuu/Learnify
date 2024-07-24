@@ -111,13 +111,18 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          dispatch(
-            userLoggedOut()
-          );
+          dispatch(userLoggedOut());
         } catch (error: any) {
           console.log(error);
         }
       },
+    }),
+    sendMail: builder.query({
+      query: () => ({
+        url: "/resend/email",
+        method: "GET",
+        credentials: "include" as const,
+      }),
     }),
   }),
 });
@@ -127,5 +132,6 @@ export const {
   useActivationMutation,
   useLoginMutation,
   useSocialAuthMutation,
-  useLogOutQuery
+  useLogOutQuery,
+  useSendMailQuery, // Updated to use mutation
 } = authApi;

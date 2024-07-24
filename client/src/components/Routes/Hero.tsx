@@ -6,7 +6,7 @@ const Hero = () => {
         <section className='w-full h-screen pt-1 '>
             <div className='textstructure mt-32 px-20'>
                 {["We Create", "Eye Opning", "Presentation"].map((item, index) => (
-                    <div className='masker'>
+                    <div className='masker' key={index}>
                         <div className='w-fit flex items-end overflow-hidden'>
 
                             {index === 1 &&
@@ -19,7 +19,7 @@ const Hero = () => {
             </div>
             <div className=' border-t-[2px] mt-32 flex justify-between  items-center py-5 px-10 text-gray-700'>
                 {["for Public and Pricate Company","From First Pich to IPO"].map((item,index) =>(
-                    <h4 className=' capitalize'>{item}</h4>
+                    <h4 key={index} className=' capitalize'>{item}</h4>
                 ))}
                 <div className='flex justify-center items-center'>
                 <button className=' border-[1px] border-slate-700 px-4 py-1 rounded-full uppercase '>Start Your learning</button>

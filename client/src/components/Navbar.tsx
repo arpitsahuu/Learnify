@@ -40,7 +40,7 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         {/* { userData ?
         <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> : <button>{userData?.user.name}</button>
          } */}
-         {userData? <button>{userData?.user?.name}</button>:<button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> }
+         {userData? <Link href="/profile">{userData?.user?.name}</Link>:<button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> }
          
          {/* <button className={` text-lg capitalize ml-32"}`} onClick={() => setOpen(true)}>Sign in</button> */}
       </div>

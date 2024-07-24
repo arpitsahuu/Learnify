@@ -1,5 +1,5 @@
 import { styles } from "@/app/styles/style";
-import { useActivationMutation } from "../../Store/auth/authApi";
+import { useActivationMutation, useSendMailQuery, } from "../../Store/auth/authApi";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
@@ -19,7 +19,33 @@ type VerifyNumber = {
 const Verification: FC<Props> = ({ setRoute }) => {
   const { token } = useSelector((state: any) => state.auth);
   const [activation, { isSuccess, error }] = useActivationMutation();
+  // const [sendMail, { data, isSuccess:mailSuccess, isLoading: isSendingMail }] = useSendMailQuery(); 
   const [invalidError, setInvalidError] = useState<boolean>(false);
+  const [minutes,setminutes] = useState(1);
+  const [seconds,setseconds] = useState(59);
+  const [activeSendMain, setActiveSendMain] = useState(false);
+
+
+  useEffect(() => {
+    const interval = setInterval(()=>{
+      if(seconds >0){
+        setseconds(seconds -1);
+      }
+      if(seconds === 0){
+        if(minutes === 0){
+          clearInterval(interval)
+          setActiveSendMain(true);
+        } else{
+          setseconds(59);
+          setminutes(minutes -1);
+        }
+      }
+    },1000)
+  
+    return () => {
+      clearInterval(interval)
+    }
+  }, [seconds])
 
   useEffect(() => {
     if (isSuccess) {
@@ -29,13 +55,14 @@ const Verification: FC<Props> = ({ setRoute }) => {
     if (error) {
       if ("data" in error) {
         const errorData = error as any;
+        console.log(errorData.data.message)
         toast.error(errorData.data.message);
         setInvalidError(true);
       } else {
         console.log("An error occured:", error);
       }
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error,setRoute,setInvalidError]);
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -65,6 +92,18 @@ const Verification: FC<Props> = ({ setRoute }) => {
     });
   };
 
+  const resendOTPHandler = async () => {
+    try {
+      // await sendMail();
+      toast.success("OTP has been resent to your email.");
+      setseconds(59);
+      setminutes(1);
+      setActiveSendMain(false)
+    } catch (error) {
+      toast.error("Failed to resend OTP. Please try again.");
+    }
+  };
+
   const handleInputChange = (index: number, value: string) => {
     setInvalidError(false);
     const newVerifyNumber = { ...verifyNumber, [index]: value };
@@ -83,12 +122,12 @@ const Verification: FC<Props> = ({ setRoute }) => {
       <br />
       <div className="w-full flex items-center justify-center mt-2">
         <div className="w-[80px] h-[80px] rounded-full bg-[#497DF2] flex items-center justify-center">
-          <VscWorkspaceTrusted size={40} />
+          <VscWorkspaceTrusted size={40} className="text-white" />
         </div>
       </div>
       <br />
       <br />
-      <div className="m-auto flex items-center justify-around">
+      <div className="m-auto flex items-center justify-around mb-7">
         {Object.keys(verifyNumber).map((key, index) => (
           <input
             type="number"
@@ -106,15 +145,19 @@ const Verification: FC<Props> = ({ setRoute }) => {
           />
         ))}
       </div>
-      <br />
-      <br />
       <div className="w-full flex justify-center">
         <button className={`${styles.button}`} onClick={verificationHandler}>
           Verify OTP
         </button>
       </div>
-      <br />
-      <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
+      {/* <br /> */}
+      <div className="w-full flex justify-between mt-3 px-2 ">
+        <h3 className="text-gray-700 font-normal text-sm">Time Remaining {minutes}:{seconds}</h3>
+        <button className={` underline  text-sm  font-semibold ${ !activeSendMain && "!cursor-no-drop opacity-[0.6]"} `} onClick={resendOTPHandler}>Resend OTP</button>
+
+      </div>
+      
+      <h5 className="text-center pt- font-Poppins text-[14px] text-gray-800 dark:text-white mt-8">
         Go back to sign in?{" "}
         <span
           className="text-[#2190ff] pl-1 cursor-pointer"

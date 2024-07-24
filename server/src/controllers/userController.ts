@@ -97,7 +97,6 @@ export const userActivation = catchAsyncError(
       return next(new errorHandler("Provide Activation Code"));
 
     let { token } = req.cookies;
-    console.log(req.cookies)
 
     if (!token) {
       token = activation_token
@@ -167,10 +166,10 @@ export const userLogin = catchAsyncError(
       .select("+password")
       .exec();
     if (!user)
-      return next(new errorHandler("User Not Found With this Email", 404));
+      return next(new errorHandler("User Not Found With this Email", 401));
 
     const isMatch = await user.comparePassword(password);
-    if (!isMatch) return next(new errorHandler("Wrong Credientials", 500));
+    if (!isMatch) return next(new errorHandler("Wrong Credientials", 401));
 
     interface Itokeninterfat {
       accessToken: string;
@@ -229,6 +228,41 @@ export const userLongOut = catchAsyncError(
       });
   }
 );
+
+
+export const resentEmail = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    let { token } = req.cookies;
+
+    let tokenInof: { user: IRegistrationBody; ActivationCode: string } =
+      (await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET as string)) as {
+        user: IRegistrationBody;
+        ActivationCode: string;
+      };
+      const data: object = { name: tokenInof.user.name, activationCode: tokenInof.ActivationCode };
+
+      try {
+        await sendmail(
+          next,
+          tokenInof?.user?.email,
+          "Verification code",
+          "activationMail.ejs",
+          data
+        );
+        res.status(200).json({
+          succcess: true,
+          message: `send email to ${tokenInof?.user?.email}`,
+        });
+      } catch (error: any) {
+        return next(new errorHandler(error.message, 400));
+      }
+    }
+    
+  
+);
+
+
+
 
 export const updateAccessToken = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {

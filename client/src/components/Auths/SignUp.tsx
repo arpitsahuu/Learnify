@@ -11,6 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useRegisterMutation } from "../../Store/auth/authApi";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { styles } from "@/app/styles/style";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -29,6 +30,9 @@ const Signup: FC<Props> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const [register,{data,error,isSuccess}] = useRegisterMutation(); 
+  
+  
+
 
   useEffect(() => {
    if(isSuccess){
@@ -39,10 +43,10 @@ const Signup: FC<Props> = ({ setRoute }) => {
    if(error){
     if("data" in error){
       const errorData = error as any;
-      toast.error(errorData.data.message);
+      toast.error(errorData?.data?.message);
     }
    }
-  }, [isSuccess,error]);
+  }, [isSuccess,error,setRoute]);
   
 
   const formik = useFormik({
@@ -60,7 +64,10 @@ const Signup: FC<Props> = ({ setRoute }) => {
 
   return (
     <div className="w-full">
-      <h1 className="text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">Join to ELearning</h1>
+      <h1 className="text-[25px] text-gray-800 dark:text-white font-semibold font-Poppins text-center pt-6 pb-3">Join to Lernify</h1>
+      {error &&
+       <p className=" text-xs text-red-500 text-center mb-2 ">{error?.data?.message}</p>
+      }
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="text-[16px] font-Poppins text-black dark:text-white" htmlFor="email">
@@ -132,16 +139,16 @@ const Signup: FC<Props> = ({ setRoute }) => {
           <span className="text-red-500 pt-2 block">{errors.password}</span>
         )}
         <div className="w-full mt-5">
-          <input type="submit" value="Sign Up" className="flex flex-row justify-center items-center py-3 px-6 rounded-full cursor-pointer bg-[#2190ff] min-h-[45px] w-full text-[16px] font-Poppins font-semibold" />
+          <input type="submit" value="Sign Up" className={`${styles.button}`} />
         </div>
         <br />
-        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
+        {/* <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
           Or join with
         </h5>
         <div className="flex items-center justify-center my-3">
           <FcGoogle size={30} className="cursor-pointer mr-2" />
           <AiFillGithub size={30} className="cursor-pointer ml-2" />
-        </div>
+        </div> */}
         <h5 className="text-center pt-4 font-Poppins text-[14px]">
           Already have an account?{" "}
           <span

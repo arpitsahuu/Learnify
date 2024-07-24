@@ -87,11 +87,11 @@ const CourseContentMedia = ({
   ] = useAddReplyInReviewMutation();
 
   const isReviewExists = course?.reviews?.find(
-    (item: any) => item.user._id === user._id
+    (item: any) => item?.user?._id === user?._id
   );
 
   const handleQuestion = () => {
-    if (question.length === 0) {
+    if (question?.length === 0) {
       toast.error("Question can't be empty");
     } else {
       addNewQuestion({
@@ -170,6 +170,12 @@ const CourseContentMedia = ({
     reviewError,
     replySuccess,
     replyError,
+    activeVideo,
+    courseRefetch,
+    data,
+    refetch,
+    user._id,
+    user.role,
   ]);
 
   const handleAnswerSubmit = () => {

@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteUser, getAllUsers, getUserInfo, updateUserInfo, updateUserPassword, updateUserRole, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
+import { deleteUser, getAllUsers, getUserInfo, resentEmail, updateUserInfo, updateUserPassword, updateUserRole, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
 import { isAutheticated } from '../middlewares/auth';
 
 const router = express.Router();
@@ -15,6 +15,9 @@ router.post("/login",userLogin);
 
 // USER LONOUT 
 router.get("/logout",userLongOut);
+
+// Resend mail 
+router.get("/resend/email",resentEmail);
 
 // USER INFO 
 router.get("/me",isAutheticated, getUserInfo);

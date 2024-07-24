@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+"use client"
+import React from 'react'
 
 const course = () => {
-    const [data,setdata] = useState("")
   return (
     <div>
         <div></div>

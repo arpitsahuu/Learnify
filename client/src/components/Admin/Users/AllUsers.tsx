@@ -59,7 +59,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         toast.error(errorMessage.data.message);
       }
     }
-  }, [updateError, isSuccess, deleteSuccess, deleteError]);
+  }, [updateError, isSuccess, deleteSuccess, deleteError,refetch]);
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.3 },
