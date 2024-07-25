@@ -19,7 +19,7 @@ type VerifyNumber = {
 const Verification: FC<Props> = ({ setRoute }) => {
   const { token } = useSelector((state: any) => state.auth);
   const [activation, { isSuccess, error }] = useActivationMutation();
-  // const [sendMail, { data, isSuccess:mailSuccess, isLoading: isSendingMail }] = useSendMailQuery(); 
+  const { refetch: resendMail, isFetching: isSendingMail } = useSendMailQuery(undefined, { skip: true }); // Initialize useSendMailQuery
   const [invalidError, setInvalidError] = useState<boolean>(false);
   const [minutes,setminutes] = useState(1);
   const [seconds,setseconds] = useState(59);
@@ -94,7 +94,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
 
   const resendOTPHandler = async () => {
     try {
-      // await sendMail();
+      await resendMail();
       toast.success("OTP has been resent to your email.");
       setseconds(59);
       setminutes(1);
