@@ -14,11 +14,11 @@ import { useLoadUserQuery } from "../../Store/api/apiSlice";
 
 type Props = {
   id: string;
+  setOpen:any;
+  setRoute:any;
 };
 
-const CourseDetailsPage = ({ id }: Props) => {
-  const [route, setRoute] = useState("Login");
-  const [open, setOpen] = useState(false);
+const CourseDetailsPage = ({ id ,setRoute,setOpen }: Props) => {
   const { data, isLoading } = useGetCourseDetailsQuery(id);
   const { data: config } = useGetRazorpayPublishablekeyQuery({});
   const [createPaymentIntent, { data: paymentIntentData }] =
@@ -107,7 +107,7 @@ const CourseDetailsPage = ({ id }: Props) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div>
+        <div className="mt-20">
           <Heading
             title={data?.course?.name + " - ELearning"}
             description={

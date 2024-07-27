@@ -3,7 +3,7 @@ import Hero from "@/components/Routes/Hero";
 import Navbar from "@/components/Navbar";
 import Heading from "@/components/utils/Heading";
 import { useEffect, useState } from "react";
-import Courses from "@/components/Routes/Courses";  
+import Courses from "@/components/Routes/Courses";
 import LocomotiveScroll from 'locomotive-scroll';
 import useBlobity from "blobity/lib/react/useBlobity";
 import { initialBlobityOptions } from "../components/utils/BlobityConfig";
@@ -35,7 +35,6 @@ export default function Home() {
 
   return (
     <main className=" min-h-screen w-full">
-      {/* <main className="w-full"> */}
       <Heading
         title="Lernify"
         description="Lernify is a platform for students to learn and get help from teachers"
@@ -50,7 +49,7 @@ export default function Home() {
       ></Navbar>
       <Hero></Hero>
       <Courses />
-    {/* </main> */}
     </main>
   );
 }
+
