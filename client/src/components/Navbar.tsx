@@ -61,7 +61,7 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
 
   console.log(userData)
   return (
-    <nav ref={container} className="w-full ps-20 pe-10 py-5 flex justify-between items-center bg-green-200 font-['Neue Montreal'] absolute top-0  ">
+    <nav ref={container} className="w-full ps-20 pe-10 py-5 flex justify-between items-center font-['Neue Montreal'] absolute top-0  ">
       <div className="logo">
         {" "}
         <h3 className="text-xl">Lernify</h3>

@@ -1,32 +1,58 @@
 import { apiSlice } from "../api/apiSlice";
+import { userUpdate, userUpdateAvatar } from "../auth/authSlice";
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateAvatar: builder.mutation({
       query: (avatar) => ({
-        url: "update-user-avatar",
-        method: "PUT",
+        url: "avatar",
+        method: "POST",
         body: { avatar },
         credentials: "include" as const,
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            userUpdateAvatar({
+              user: result.data.user,
+            })
+          );
+        } catch (error: any) {
+          console.log(error);
+        }
+      },
     }),
     editProfile: builder.mutation({
       query: ({ name }) => ({
-        url: "update-user-info",
+        url: "/update",
         method: "PUT",
         body: {
           name,
         },
         credentials: "include" as const,
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            userUpdate({
+              accessToken: result.data.accessToken,
+              user: result.data.user,
+            })
+          );
+        } catch (error: any) {
+          console.log(error);
+        }
+      },
     }),
     updatePassword: builder.mutation({
-      query: ({ oldPassword, newPassword }) => ({
-        url: "update-user-password",
+      query: ({ oldPassword, password }) => ({
+        url: "password",
         method: "PUT",
         body: {
           oldPassword,
-          newPassword,
+          password,
         },
         credentials: "include" as const,
       }),

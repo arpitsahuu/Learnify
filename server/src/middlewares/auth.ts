@@ -19,6 +19,8 @@ declare global {
 export const isAutheticated = catchAsyncError(
   async (req: Request<any>, res: Response, next: NextFunction) => {
     const accessToken = req.cookies.accessToken as string;
+    const refreshToken = req.cookies.refreshToken as string;
+
 
     if (!accessToken) {
       return next(

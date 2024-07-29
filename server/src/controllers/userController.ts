@@ -10,6 +10,13 @@ import { generateTokens } from "../utils/generateTokens";
 import { redis } from "../models/redis";
 import CourseData from "../models/coureModels/courseData";
 import Query from "../models/coureModels/questionModel";
+import cloudinary from "cloudinary";
+
+cloudinary.v2.config({
+  cloud_name: "dcj2gzytt",
+  api_key: process.env.CLOUDINARY_PUBLIC_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+});
 
 export const homepage = catchAsyncError(
   (req: Request, res: Response, next: NextFunction) => { }
@@ -162,9 +169,9 @@ export const userLogin = catchAsyncError(
     if (!email || !password)
       return next(new errorHandler("Pleas fill all details"));
 
-    const user: IUser | null = await User.findOne({ email: email })
-      .select("+password")
-      .exec();
+    // const user: IUser | null = await User.findOne({ email: email }).populate("cou").select("+password -courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links")
+    const user = await User.findOne({ email: email }).select("+password");
+    
     if (!user)
       return next(new errorHandler("User Not Found With this Email", 401));
 
@@ -424,7 +431,8 @@ interface IUpdataUser {
 export const updateUserInfo = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, name, contact } = req.body as IUpdataUser;
-    const userId = req.params?.id;
+    const userId = req.user?._id;
+    console.log(userId)
 
     try {
       // Find user by ID
@@ -434,7 +442,7 @@ export const updateUserInfo = catchAsyncError(
       if (!user) return next(new errorHandler("User not found", 404));
 
       // If email is provided, check for email uniqueness
-      if (email !== undefined && email !== null && email !== "") {
+      if (email !== undefined && email !== null && email !== "" && email === user.email) {
         const isEmailExit = await User.findOne({ email: email });
         if (isEmailExit) {
           return next(
@@ -525,6 +533,61 @@ export const updateUserPassword = catchAsyncError(
         success: true,
         message: "Password changed successfully",
       });
+    } catch (error: any) {
+      return next(new errorHandler(error.message, 500));
+    }
+  }
+);
+
+interface IUpdateProfilePicture {
+  avatar: string;
+}
+
+export const updateAvatar = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const {avatar} = req.body;
+      const userId = req.user?._id;
+      const user = await User.findById(userId).exec();
+      if(!user){
+        next(new errorHandler("user not lonin",401))
+      }
+
+      if (avatar && user) {
+        // if user have one avatar then call this if
+        if (user?.avatar?.public_id) {
+          // first delete the old image
+          await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
+
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          };
+        } else {
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          };
+        }
+      }
+
+      await user?.save();
+
+      await redis.set(userId, JSON.stringify(user));
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+
     } catch (error: any) {
       return next(new errorHandler(error.message, 500));
     }

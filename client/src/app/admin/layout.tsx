@@ -18,7 +18,7 @@ export default function DashboardLayout({
       <AdminProtected>
         <div className="flex justify-between">
           <div className={isCollapsed?`w-[100px]`:`sm:w-1/5  w-[16%] ]`}>
-            <AdminSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}  />
+            <AdminSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} role={"admin"}  />
           </div> 
           <div className={isCollapsed?`w-[95%]`:`w-[85%]`}>
             <DashboardHeader  open={open} setOpen={setOpen}  />

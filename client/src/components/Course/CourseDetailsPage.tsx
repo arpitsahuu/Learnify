@@ -18,7 +18,7 @@ type Props = {
   setRoute:any;
 };
 
-const CourseDetailsPage = ({ id ,setRoute,setOpen }: Props) => {
+const CourseDetailsPage = ({ id ,setRoute,setOpen }: Props) => {  
   const { data, isLoading } = useGetCourseDetailsQuery(id);
   const { data: config } = useGetRazorpayPublishablekeyQuery({});
   const [createPaymentIntent, { data: paymentIntentData }] =

@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteUser, getAllUsers, getUserInfo, resentEmail, updateUserInfo, updateUserPassword, updateUserRole, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
+import { deleteUser, getAllUsers, getUserInfo, resentEmail, updateAvatar, updateUserInfo, updateUserPassword, updateUserRole, userActivation, userLogin, userLongOut, userRegistration } from '../controllers/userController';
 import { isAutheticated } from '../middlewares/auth';
 
 const router = express.Router();
@@ -23,10 +23,13 @@ router.get("/resend/email",resentEmail);
 router.get("/me",isAutheticated, getUserInfo);
 
 // UPDATE USER INFO 
-router.put("/me",updateUserInfo);
+router.put("/update",isAutheticated,updateUserInfo);
 
 // UPDATE USER PASSWORD
-router.patch("/password",updateUserPassword);
+router.patch("/password", isAutheticated,updateUserPassword);
+
+// UPDATE USER INFO 
+router.post("/avatar",isAutheticated,updateAvatar);
 
 // USER INFO 
 // router.post("/me",isAutheticated, userInfo); 
@@ -39,5 +42,8 @@ router.put("/user/role",updateUserRole);
 
 // DELET USER -ONLY FOR ADMIN
 router.delete("/user/:id",deleteUser); 
+
+//GET ALL USERS COURSES
+router.get("/users",getAllUsers); 
 
 export default router;
