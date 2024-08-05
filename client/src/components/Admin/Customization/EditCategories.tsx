@@ -21,7 +21,7 @@ const EditCategories = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setCategories(data.layout?.categories);
+      setCategories(data.layout?.categories || [{_id:1452,title:"MERN"},{_id:2346,title:"Front-end"}]);
     }
     if (layoutSuccess) {
         refetch();
