@@ -9,6 +9,7 @@ import Order from "../models/orderModel";
 import sendmail from "../utils/sendmail";
 import Notification from "../models/notificationModel";
 import dotenv from 'dotenv';
+import { redis } from "../models/redis";
 dotenv.config();
 
 // CREATET ORDER
@@ -88,7 +89,10 @@ export const paymentVerification = catchAsyncError(
         const user = await User.findById(req.user?._id);
 
         user?.courses.push(course._id);
+        console.log(user)
         await user?.save();
+        const updateuser = await User.findById(user?._id).populate("courses").exec();
+        await redis.set(user?._id,JSON.stringify(updateuser));
 
         const order = await Order.create({
           user: user?._id,
@@ -142,7 +146,8 @@ export const paymentVerification = catchAsyncError(
 
         res.status(200).json({
           success: true,
-          order
+          order, 
+          updateuser
         })
       } else {
         res.status(400).json({

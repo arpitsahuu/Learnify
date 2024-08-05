@@ -15,6 +15,7 @@ import {
   useCreatePaymentIntentMutation,
   useGetRazorpayPublishablekeyQuery,
 } from "../../Store/orders/ordersApi";
+import { useRouter } from "next/navigation";
 
 type Props = {
   data: any;
@@ -31,9 +32,21 @@ const CourseDetails = ({
   setRoute,
   setOpen: openAuthModal,
 }: Props) => {
+
+
   const { data: userData, refetch } = useLoadUserQuery(undefined, {});
   const [user, setUser] = useState<any>();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+
+
+  interface PaymentSuccessQuery {
+    status: string;
+    order_id: string;
+    amount: string;
+  }
+
 
   useEffect(() => {
     setUser(userData?.user);
@@ -43,7 +56,7 @@ const CourseDetails = ({
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
 
   const discountPercentengePrice = dicountPercentenge.toFixed(0);
-
+  console.log(user)
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
   console.log(isPurchased)
@@ -76,8 +89,13 @@ const CourseDetails = ({
       image: "https://avatars.githubusercontent.com/u/121677470?s=400&u=48419f81cd2899ec6353f7ee83aa00e28e8b9bfb&v=4",
       order_id: res?.data?.order?.id,
       callback_url: `http://localhost:4050/api/v1/paymentVerification/${data._id}`,
+      handler: function (response: any) {
+        console.log(response);
+        window.location.href =`${window.location.origin}/payment/${response.razorpay_order_id}`
+
+      },
       prefill: {
-        name: "Gaurav Kumar",
+        name: `${user.name}`,
         email: "gaurav.kumar@example.com",
       },
       notes: {
@@ -92,13 +110,13 @@ const CourseDetails = ({
     razor.open();
   };
 
-  
+
   const x = async (e: any, id: string) => {
     e.preventDefault()
     console.log("enter")
     if (user) {
       setOpen(true);
-      await checkout(e,id);
+      await checkout(e, id);
     } else {
       console.log("enter else")
       setRoute("Login");

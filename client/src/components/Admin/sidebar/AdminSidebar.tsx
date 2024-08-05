@@ -30,6 +30,8 @@ import avatarDefault from "../../../../public/assests/avatar.png";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
+import { useLogOutMutation } from "@/Store/auth/authApi";
+import { useRouter } from "next/navigation";
 // import { useTheme } from "next-themes";
 
 interface itemProps {
@@ -61,11 +63,19 @@ type Props = {
 
 const Sidebar = ({ isCollapsed, setIsCollapsed, role }: Props) => {
   const { user } = useSelector((state: any) => state.auth);
-  const [logout, setlogout] = useState(false);
-  // const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const [mounted, setMounted] = useState(false);
-  // const { theme, setTheme } = useTheme();
+  const [logOut] = useLogOutMutation();
+  const router = useRouter();
+
+  const logoutHandler = async () => {
+    try {
+      await logOut();
+      router.push("/");
+    } catch (error) {
+      console.error("Failed to log out:", error);
+    }
+  };
 
   useEffect(() => setMounted(true), []);
 
@@ -73,9 +83,8 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, role }: Props) => {
     return null;
   }
 
-  const logoutHandler = () => {
-    setlogout(true);
-  };
+  
+  
   return (
     <Box
       sx={{
@@ -385,13 +394,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, role }: Props) => {
               >
                 {!isCollapsed && "Update"}
               </Typography>
-              <Item
-                title="Update Info"
-                to="/profile/update"
-                icon={<ManageAccountsIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
 
               <Item
                 title="Update Password"

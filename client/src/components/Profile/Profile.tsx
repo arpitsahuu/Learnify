@@ -15,20 +15,15 @@ type Props = {
 const Profile: FC<Props> = ({ user }) => {
   const [scroll, setScroll] = useState(false);
   const [avatar, setAvatar] = useState(null);
-  const [logout, setLogout] = useState(false);
   const [courses, setCourses] = useState([user?.courses]);
   const { data, isLoading } = useGetUsersAllCoursesQuery(undefined, {});
 
-  const {} = useLogOutQuery(undefined, {
-    skip: !logout ? true : false,
-  });
+  // const {} = useLogOutQuery(undefined, {
+  //   skip: !logout ? true : false,
+  // });
 
   const [active, setActive] = useState(1);
 
-  const logOutHandler = async () => {
-    setLogout(true);
-    // await signOut();
-  };
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {

@@ -170,7 +170,7 @@ export const userLogin = catchAsyncError(
       return next(new errorHandler("Pleas fill all details"));
 
     // const user: IUser | null = await User.findOne({ email: email }).populate("cou").select("+password -courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links")
-    const user = await User.findOne({ email: email }).select("+password");
+    const user = await User.findOne({ email: email }).select("+password").populate("courses").exec();
     
     if (!user)
       return next(new errorHandler("User Not Found With this Email", 401));
@@ -214,7 +214,9 @@ export const userLogin = catchAsyncError(
 
 export const userLongOut = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
+    const id = req.user?._id;
+    console.log(id)
+    if(!id) return next(new errorHandler("login to user the resorse",404))
     await User.findByIdAndUpdate(id, {
       $set: {
         refreshToken: undefined,
@@ -226,8 +228,7 @@ export const userLongOut = catchAsyncError(
       httpOnly: true,
       secure: true,
     };
-    res
-      .clearCookie("accesToken", options)
+    res.clearCookie("accesToken", options)
       .clearCookie("refreshToken", options)
       .json({
         succcess: true,

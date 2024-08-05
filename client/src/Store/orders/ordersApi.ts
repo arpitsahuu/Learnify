@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { userUpdateAvatar } from "../auth/authSlice";
 interface Order {
   amount: number;
   amount_due: number;
@@ -54,6 +55,18 @@ export const ordersApi = apiSlice.injectEndpoints({
         method: "POST",
         credentials: "include" as const,
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            userUpdateAvatar({
+              user: result.data.user,
+            })
+          );
+        } catch (error: any) {
+          console.log(error);
+        }
+      },
     }),
   }),
 });

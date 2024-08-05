@@ -14,7 +14,7 @@ router.post("/activate/user",userActivation);
 router.post("/login",userLogin);
 
 // USER LONOUT 
-router.get("/logout",userLongOut);
+router.get("/logout",isAutheticated,userLongOut);
 
 // Resend mail 
 router.get("/resend/email",resentEmail);

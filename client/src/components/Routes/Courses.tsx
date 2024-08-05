@@ -10,38 +10,7 @@ const Courses = (props: Props) => {
   useEffect(() => {
     setCourses(data?.courses);
   }, [data]);
-  const sampleCourses = [
-    {
-      _id: "1",
-      name: "Introduction to JavaScript",
-      thumbnail: { url: "" },
-      ratings: 4.5,
-      purchased: 120,
-      price: 49.99,
-      estimatedPrice: 79.99,
-      courseData: [{}, {}, {}], // Assuming courseData contains lectures
-    },
-    {
-      _id: "2",
-      name: "Advanced CSS Techniques",
-      thumbnail: { url: "" },
-      ratings: 4.0,
-      purchased: 85,
-      price: 29.99,
-      estimatedPrice: 59.99,
-      courseData: [{}, {}, {}, {}, {}],
-    },
-    {
-      _id: "3",
-      name: "React for Beginners",
-      thumbnail: { url: "" },
-      ratings: 4.8,
-      purchased: 150,
-      price: 39.99,
-      estimatedPrice: 69.99,
-      courseData: [{}, {}, {}, {}, {}, {}, {}],
-    },
-  ];
+  
   
   return (
     <div>
