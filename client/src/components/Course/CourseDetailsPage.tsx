@@ -24,25 +24,9 @@ const CourseDetailsPage = ({ id ,setRoute,setOpen }: Props) => {
   const [createPaymentIntent, { data: paymentIntentData }] =
     useCreatePaymentIntentMutation();
   const { data: userData } = useLoadUserQuery(undefined, {});
-  const [stripePromise, setStripePromise] = useState<any>(null);
-  const [clientSecret, setClientSecret] = useState("");
+  console.log(data)
 
-  // useEffect(() => {
-  //   if (config) {
-  //     const publishablekey = config?.publishablekey;
-  //     setStripePromise(loadStripe(publishablekey));
-  //   }
-  //   if (data && userData?.user) {
-  //     const amount = Math.round(data.course.price * 100);
-  //     createPaymentIntent(amount);
-  //   }
-  // }, [config, data, userData]);
 
-  // useEffect(() => {
-  //   if (paymentIntentData) {
-  //     setClientSecret(paymentIntentData?.client_secret);
-  //   }
-  // }, [paymentIntentData]);
 
   interface Order {
     id: string;

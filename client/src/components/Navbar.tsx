@@ -10,6 +10,7 @@ import { IoClose } from "react-icons/io5";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react"
 import { duration } from "@mui/material";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 type Props = {
   open: boolean;
@@ -24,7 +25,7 @@ type TimelineType = {
 };
 
 const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
-  const linkData: string[] = ["about", "courses", "questions"];
+  const linkData: string[] = [ "courses", "questions"];
   const { data: userData, isLoading, refetch } = useLoadUserQuery(undefined, {});
   const [state, setstate] = useState(true)
   const container = useRef<HTMLDivElement>(null);
@@ -61,10 +62,10 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
 
   console.log(userData)
   return (
-    <nav ref={container} className="w-full ps-20 pe-10 py-5 flex justify-between items-center font-['Neue Montreal'] absolute top-0  ">
+    <nav ref={container} className="w-full sm:ps-20 sm:pe-10 py-5 px-2 flex justify-between items-center font-['Neue Montreal'] absolute top-0  ">
       <div className="logo">
         {" "}
-        <h3 className="text-xl">Lernify</h3>
+        <h3 className="text-xl">Learnify</h3>
       </div>
       <div className=" hidden sm:block">
         <div className=" links flex gap-3 items-center text-xl">
@@ -87,13 +88,16 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         </div>
 
       </div>
-      <button className="block sm:hidden" onClick={toggleTimeline}>X</button>
-      <div ref={slider} className="  absolute top-0 right-[-500px] w-[500px] h-[100vh] bg-[#ffffff71] backdrop-blur hidden  text-4xl pt-[20vh] px-5 font-semibold">
+      <button className="block sm:hidden" onClick={toggleTimeline}><GiHamburgerMenu /></button>
+      <div ref={slider} className="  absolute top-0 right-[-100%] w-[100%] h-[100vh] bg-[#ffffff71] backdrop-blur hidden  text-4xl pt-[20vh] px-5 font-semibold z-[99999999999999999999]">
+        {/* {userData ? <Link href={"Home"} className="mb-2 link block">Home</Link>: <Link href={"Home"} className="mb-2 link block">Home</Link>} */}
+      <button onClick={toggleTimeline} className=" absolute top-[5%] right-[8%] "><IoClose /></button>
+
         <Link href={"Home"} className="mb-2 link block">Home</Link>
         <Link href={"Home"} className="mb-2 link block">Course</Link>
         <Link href={"Home"} className="mb-2 link block">Que</Link>
         <Link href={"Home"} className="mb-2 link block">Signin</Link>
-        <button onClick={toggleTimeline} className=" absolute top-[5%] right-[8%] "><IoClose /></button>
+        
 
 
       </div>

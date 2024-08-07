@@ -16,7 +16,7 @@ import { styles } from "@/app/styles/style";
 type Props = {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
-  refetch:any;
+  refetch: any;
 };
 
 const schema = Yup.object().shape({
@@ -26,9 +26,10 @@ const schema = Yup.object().shape({
   password: Yup.string().required("Please enter your password!").min(6),
 });
 
-const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
+const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const [show, setShow] = useState(false);
-  const [login, { isSuccess,isLoading, error }] = useLoginMutation();
+  const [login, { isSuccess, isLoading, error }] = useLoginMutation();
+
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
@@ -47,38 +48,43 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
       if ("data" in error) {
         const errorData = error as any;
         toast.error(errorData.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
       }
     }
-  }, [isSuccess, error,setOpen,refetch]);
+  }, [isSuccess, error, setOpen, refetch]);
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   return (
     <div className="w-full">
-      <h1 className="text-[25px] text-gray-800 dark:text-white font-Poppins font-semibold text-center pt-6 pb-3 ">Login with Lernify</h1>
-      {error &&
-       <p className=" text-xs text-red-500 text-center mb-2 ">{error?.data?.message}</p>
-      }
+      <h1 className="text-[25px] text-gray-800 dark:text-white font-Poppins font-semibold text-center pt-6 pb-3 ">
+        Login with Lernify
+      </h1>
+      {error && "data" in error && (
+        <p className=" text-xs text-red-500 text-center mb-2 ">
+          {(error as { data: { message: string } }).data.message}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <label className="text-[16px] font-Poppins text-black dark:text-white" htmlFor="email">
           Enter your Email
         </label>
         <input
           type="email"
-          name=""
+          name="email"
           value={values.email}
           onChange={handleChange}
           id="email"
           placeholder="loginmail@gmail.com"
-          className={`${errors.email && touched.email && "border-red-500"} ${
-            "w-full text-black dark:text-white bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins"
-          }`}
+          className={`${errors.email && touched.email && "border-red-500"} ${"w-full text-black dark:text-white bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins"
+            }`}
         />
         {errors.email && touched.email && (
           <span className="text-red-500 pt-2 block">{errors.email}</span>
         )}
         <div className="w-full mt-5 relative mb-1">
-          <label className="text-[16px] font-Poppins text-black dark:text-white" htmlFor="email">
+          <label className="text-[16px] font-Poppins text-black dark:text-white" htmlFor="password">
             Enter your password
           </label>
           <input
@@ -88,9 +94,8 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
             onChange={handleChange}
             id="password"
             placeholder="password!@%"
-            className={`${
-              errors.password && touched.password && "border-red-500"
-            } ${"w-full text-black dark:text-white bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins"}`}
+            className={`${errors.password && touched.password && "border-red-500"
+              } ${"w-full text-black dark:text-white bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins"}`}
           />
           {!show ? (
             <AiOutlineEyeInvisible
@@ -109,21 +114,16 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
             <span className="text-red-500 pt-2 block">{errors.password}</span>
           )}
         </div>
-        <div className="w-full mt-5  ">
-          {!isLoading ?
-          <input type="submit" value="Login" className={`${styles.button}`} />:<button className={`${styles.button}`} >Loding...</button>
-          }
+        <div className="w-full mt-5">
+          {!isLoading ? (
+            <input type="submit" value="Login" className={`${styles.button}`} />
+          ) : (
+            <button className={`${styles.button}`} disabled>
+              Loading...
+            </button>
+          )}
         </div>
         <br />
-        {/* <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
-          Or join with
-        </h5> */}
-        {/* <div className="flex items-center justify-center my-3">
-          <FcGoogle size={30} className="cursor-pointer mr-2"
-          onClick={() => signIn("google")}
-          />
-          <AiFillGithub size={30} className="cursor-pointer ml-2" onClick={() => signIn("github")} />
-        </div> */}
         <h5 className="text-center pt-4 font-Poppins text-[14px]">
           Not have any account?{" "}
           <span

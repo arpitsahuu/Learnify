@@ -46,7 +46,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
       toast.error(errorData?.data?.message);
     }
    }
-  }, [isSuccess,error,setRoute]);
+  }, [isSuccess,error,setRoute,data?.message]);
   
 
   const formik = useFormik({
@@ -66,7 +66,9 @@ const Signup: FC<Props> = ({ setRoute }) => {
     <div className="w-full">
       <h1 className="text-[25px] text-gray-800 dark:text-white font-semibold font-Poppins text-center pt-6 pb-3">Join to Lernify</h1>
       {error &&
-       <p className=" text-xs text-red-500 text-center mb-2 ">{error?.data?.message}</p>
+       <p className=" text-xs text-red-500 text-center mb-2 ">
+       {(error as { data: { message: string } }).data.message}
+     </p>
       }
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

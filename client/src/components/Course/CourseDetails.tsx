@@ -16,6 +16,7 @@ import {
   useGetRazorpayPublishablekeyQuery,
 } from "../../Store/orders/ordersApi";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 type Props = {
   data: any;
@@ -89,9 +90,14 @@ const CourseDetails = ({
       image: "https://avatars.githubusercontent.com/u/121677470?s=400&u=48419f81cd2899ec6353f7ee83aa00e28e8b9bfb&v=4",
       order_id: res?.data?.order?.id,
       callback_url: `http://localhost:4050/api/v1/paymentVerification/${data._id}`,
-      handler: function (response: any) {
-        console.log(response);
-        window.location.href =`${window.location.origin}/payment/${response.razorpay_order_id}`
+      handler:async function (response: any) {
+        const callbackresponse = await axios.post(`http://localhost:4050/api/v1/paymentVerification/${data._id}`,{
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        })
+        console.log(callbackresponse);
+        window.location.href =`${window.location.origin}/payment/${response.data?.razorpay_order_id}`
 
       },
       prefill: {

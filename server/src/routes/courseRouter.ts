@@ -1,5 +1,5 @@
 import express from 'express';
-import { deltetCours, generateVideoUrl, getAdminAllCourses, getAllCourses, getCourseByUser, getSingleCourse, uploadCourse } from '../controllers/courseController';
+import { deltetCours, generateVideoUrl, getAdminAllCourses, getAllCourses, getCourseByUser, getSingleCourse, searchCourses, uploadCourse } from '../controllers/courseController';
 import {  isAutheticated } from '../middlewares/auth';
 import {upload} from "../middlewares/multer"
 
@@ -40,7 +40,6 @@ courseRouter.delete(
 
 courseRouter.get("/get-course-content/:id", isAutheticated, getCourseByUser);
 
-
-
+courseRouter.get("/search/courses", searchCourses);
 
 export default courseRouter;

@@ -21,7 +21,7 @@ const EditCategories = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setCategories(data.layout?.categories || [{_id:1452,title:"MERN"},{_id:2346,title:"Front-end"}]);
+      setCategories(data.layout?.categories);
     }
     if (layoutSuccess) {
         refetch();
@@ -83,7 +83,7 @@ const EditCategories = (props: Props) => {
           {categories &&
             categories.map((item: any, index: number) => {
               return (
-                <div className="p-3" key={index}>
+                <div className="p-3 " key={index}>
                   <div className="flex items-center w-full justify-center">
                     <input
                       className={`${styles.input} !w-[unset] !border-none !text-[20px]`}

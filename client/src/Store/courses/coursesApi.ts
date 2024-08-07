@@ -99,6 +99,14 @@ export const coursesApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchCourses: builder.query({
+      query: (query: string) => ({
+        url: `search/courses?q=${encodeURIComponent(query)}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+
   }),
 });
 
@@ -113,5 +121,6 @@ export const {
   useAddNewQuestionMutation,
   useAddAnswerInQuestionMutation,
   useAddReviewInCourseMutation,
-  useAddReplyInReviewMutation
+  useAddReplyInReviewMutation,
+  useSearchCoursesQuery,
 } = coursesApi;

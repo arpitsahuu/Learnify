@@ -1,6 +1,7 @@
 import { useGetUsersAllCoursesQuery } from "../../Store/courses/coursesApi";
 import React, { useEffect, useState } from "react";
 import CourseCard from "../Course/CourseCard";
+import Link from "next/link";
 type Props = {};
 
 const Courses = (props: Props) => {
@@ -28,6 +29,8 @@ const Courses = (props: Props) => {
               <CourseCard item={item} key={index} />
             ))}
         </div>
+        <Link className=" text-lg" href="courses"> View All</Link>
+
       </div>
     </div>
   );

@@ -70,7 +70,7 @@ const Page = (props: Props) => {
               <div
                 className={`h-[35px] ${
                   category === "All" ? "bg-[crimson]" : "bg-[#5050cb]"
-                } m-3 px-3 rounded-[30px] flex items-center justify-center font-Poppins cursor-pointer`}
+                } m-3 px-3 rounded-[30px] flex items-center justify-center font-Poppins cursor-pointer text-white`}
                 onClick={() => setCategory("All")}
               >
                 All
@@ -83,7 +83,7 @@ const Page = (props: Props) => {
                         category === item.title
                           ? "bg-[crimson]"
                           : "bg-[#5050cb]"
-                      } m-3 px-3 rounded-[30px] flex items-center justify-center font-Poppins cursor-pointer`}
+                      } m-3 px-3 rounded-[30px] flex items-center justify-center font-Poppins cursor-pointer text-white`}
                       onClick={() => setCategory(item.title)}
                     >
                       {item.title}
@@ -100,7 +100,7 @@ const Page = (props: Props) => {
             }
             <br />
             <br />
-            <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-4 1500px:gap-[35px] mb-12 border-0">
+            <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-4 1500px:gap-[35px] mb-12 border-0 ">
               {courses &&
                 courses.map((item: any, index: number) => (
                   <CourseCard item={item} key={index} />

@@ -1,5 +1,5 @@
 import { styles } from "@/app/styles/style";
-// import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
+import { useGetHeroDataQuery } from "@/Store/layout/layoutApi";
 import React, { FC, useEffect, useState } from "react";
 
 type Props = {
@@ -16,14 +16,16 @@ const CourseInformation: FC<Props> = ({
   setActive,
 }) => {
   const [dragging, setDragging] = useState(false);
-  // const { data } = useGetHeroDataQuery("Categories", {});
+  const { data, isLoading,refetch } = useGetHeroDataQuery("Categories", {
+    refetchOnMountOrArgChange: true,
+  });
   const [categories, setCategories] = useState([]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setCategories(data.layout?.categories);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data) {
+      setCategories(data.layout?.categories);
+    }
+  }, [data]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -174,13 +176,13 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, categories: e.target.value })
               }
             >
-              <option className="dark:bg-[#000] text-[#fff]" value="">
+              <option className="" value="">
                 Select Category
               </option>
               {categories &&
                 categories.map((item: any) => (
                   <option
-                    className="dark:bg-[#000] text-[#fff]"
+                    className=" "
                     value={item.title}
                     key={item._id}
                   >

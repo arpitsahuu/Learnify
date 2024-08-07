@@ -1,34 +1,79 @@
-import React from 'react'
+"use client"
+import { useSearchCoursesQuery } from '@/Store/courses/coursesApi';
+import React, { useEffect, useState } from 'react'
 import { FaArrowDown } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import SearchCard from '../Course/SearchCard';
 
 const Hero = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [triggerSearch, setTriggerSearch] = useState(false);
+    const [boxOpen, setBoxOpen] = useState(false)
+    const { data: courses, isLoading, error, refetch, isSuccess} = useSearchCoursesQuery(searchTerm, {
+        skip: !triggerSearch, // Skip query until search is triggered
+    });
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setTriggerSearch(true); // Allow query to run
+        setBoxOpen(true)
+        console.log(courses)
+    };
+
+    useEffect(() => {
+        if (searchTerm.trim() === "") {
+            setBoxOpen(false);
+        }
+    }, [searchTerm])
+
+    useEffect(() => {
+        setTriggerSearch(false)
+    }, [isSuccess])
+
+    useEffect(() => {
+        if (triggerSearch && refetch) {
+            refetch(); // Trigger the query manually when the search is triggered
+        }
+    }, [triggerSearch, refetch]);
+
+    
+
     return (
         <section className='w-full h-screen pt-1 '>
-            <div className='textstructure mt-32 px-20'>
-                {["We Create", "Eye Opning", "Presentation"].map((item, index) => (
-                    <div className='masker' key={index}>
-                        <div className='w-fit flex items-end overflow-hidden'>
+            <div className=' mt-32 text-center'>
+                <h3 className='border border-gray-300 px-5 py-1 inline-block rounded-full  '>Elevate your online learnig journey! <span className=' text-blue-500 '>Read more </span></h3>
+                <h1 className=' my-6 text-[50px] font-bold whitespace-pre leading-[50px] text-gray-800'>Unlock Your Tech Potential <br /> with Courses Designed for Success</h1>
+                <h5 className=' text-gray-600 text-center text-wrap w-[50%]  m-auto'>Join a vibrant community of learners and professionals, dedicated to exploring the latest advancements in tech and development, and unlock new opportunities for personal and professional growth</h5>
 
-                            {index === 1 &&
-                                <div className='mr-5 w-[8vw] rounded-md h-[5vw] bottom-0 relative bg-green-500  '></div>
-                            }
-                            <h1 className=" pt-[.8vw] mb-1 uppercase text-[7vw] leading-[.75] font-bold font-['Test Founders Grotest X-Cond Sm Semi Bold'] text-[#212121] tracking-tightest ">{item}</h1>
-                        </div>
+                <form onSubmit={handleSearch} className=' relative mt-6 w-[700px] m-auto '>
+                    <input type="text" name="serch" className='w-full h-14 bg-sky-50 rounded-full pe-28 ps-16 text-gray-700 text-lg shadow' placeholder='Search Courses' onChange={(e) => setSearchTerm(e.target.value)} />
+                    <button
+                        type="submit"
+                        className={`absolute bg-[#4080ED] py-2 px-6 rounded-2xl top-2 right-3 text-white  ${isLoading?"!cursor-no-drop opacity-[0.6]":""}`}
+                    >
+                        Search
+                    </button>
+                    <div className="absolute top-5 left-5 text-gray-700">
+                        <FaSearch id="searchicanbor" className="text-[15px]" />
                     </div>
-                ))}
-            </div>
-            <div className=' border-t-[2px] mt-32 flex justify-between  items-center py-5 px-10 text-gray-700'>
-                {["for Public and Pricate Company","From First Pich to IPO"].map((item,index) =>(
-                    <h4 key={index} className=' capitalize'>{item}</h4>
-                ))}
-                <div className='flex justify-center items-center'>
-                <button className=' border-[1px] border-slate-700 px-4 py-1 rounded-full uppercase '>Start Your learning</button>
-                <div className='border-[1px] border-slate-700 p-2 ms-2 rounded-full text-gray-700 '>
+                    {
 
-                <FaArrowDown  /> 
-                </div>
-                </div>
-                
+                    }
+                    {boxOpen &&
+                        <div className={`mt-1 ${isLoading?"opacity-0.6 !cursor-no-drop":""}`}>
+                            {courses?.courses && courses?.courses?.length !== 0 && courses?.courses.map((course: any) => (
+                                <div key={course._id}>
+                                    <SearchCard item={course} />
+                                </div>
+                            ))}
+                            {courses?.courses?.length === 0 &&
+                                <div>
+                                    <h6>no courses found with text </h6>
+                                </div>
+                            }
+                        </div>
+                    }
+                </form>
             </div>
 
         </section>

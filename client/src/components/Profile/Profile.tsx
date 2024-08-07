@@ -1,7 +1,7 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
 import SideBarProfile from "./SideBarProfile";
-import { useLogOutQuery } from "../../Store/auth/authApi";
+// import { useLogOutQuery } from "../../Store/auth/authApi";
 // import { signOut } from "next-auth/react";
 import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";

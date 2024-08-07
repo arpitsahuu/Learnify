@@ -27,7 +27,7 @@ const CourseContent = ({ id,user }: Props) => {
       ) : (
         <>
           <Header activeItem={1} open={open} setOpen={setOpen} route={route} setRoute={setRoute} />
-          <div className="w-full grid 800px:grid-cols-10">
+          <div className="w-full grid sm:grid-cols-10">
             <Heading
               title={data[activeVideo]?.title}
               description="anything"
@@ -43,7 +43,7 @@ const CourseContent = ({ id,user }: Props) => {
                 refetch={refetch}
               />
             </div>
-            <div className="hidden 800px:block 800px:col-span-3">
+            <div className="hidden sm:block sm:col-span-3">
             <CourseContentList
               setActiveVideo={setActiveVideo}
               data={data}

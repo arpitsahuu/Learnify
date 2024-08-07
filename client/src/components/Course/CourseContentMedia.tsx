@@ -206,7 +206,7 @@ const CourseContentMedia = ({
   };
 
   return (
-    <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
+    <div className="w-[95%] sm:w-[86%] mt-14 py-4 m-auto">
       <CoursePlayer
         title={data[activeVideo]?.title}
         videoUrl={data[activeVideo]?.videoUrl}
@@ -251,7 +251,7 @@ const CourseContentMedia = ({
         {["Overview", "Resources", "Q&A", "Reviews"].map((text, index) => (
           <h5
             key={index}
-            className={`800px:text-[20px] cursor-pointer ${
+            className={`sm:text-[20px] cursor-pointer ${
               activeBar === index
                 ? "text-red-500"
                 : "dark:text-white text-black"
@@ -273,11 +273,11 @@ const CourseContentMedia = ({
         <div>
           {data[activeVideo]?.links.map((item: any, index: number) => (
             <div className="mb-5" key={index}>
-              <h2 className="800px:text-[20px] 800px:inline-block dark:text-white text-black">
+              <h2 className="sm:text-[20px] sm:inline-block dark:text-white text-black">
                 {item.title && item.title + " :"}
               </h2>
               <a
-                className="inline-block text-[#4395c4] 800px:text-[20px] 800px:pl-2"
+                className="inline-block text-[#4395c4] sm:text-[20px] sm:pl-2"
                 href={item.url}
               >
                 {item.url}
@@ -309,7 +309,7 @@ const CourseContentMedia = ({
               cols={40}
               rows={5}
               placeholder="Write your question..."
-              className="outline-none bg-transparent ml-3 border dark:text-white text-black border-[#0000001d] dark:border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
+              className="outline-none bg-transparent ml-3 border dark:text-white text-black border-[#0000001d] dark:border-[#ffffff57] sm:w-full p-2 rounded w-[90%] sm:text-[18px] font-Poppins"
             ></textarea>
           </div>
           <div className="w-full flex justify-end">
@@ -393,7 +393,7 @@ const CourseContentMedia = ({
                       cols={40}
                       rows={5}
                       placeholder="Write your comment..."
-                      className="outline-none bg-transparent 800px:ml-3 dark:text-white text-black border border-[#00000027] dark:border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"
+                      className="outline-none bg-transparent sm:ml-3 dark:text-white text-black border border-[#00000027] dark:border-[#ffffff57] w-[95%] sm:w-full p-2 rounded text-[18px] font-Poppins"
                     ></textarea>
                   </div>
                 </div>
@@ -401,7 +401,7 @@ const CourseContentMedia = ({
                   <div
                     className={`${
                       styles.button
-                    } !w-[120px] !h-[40px] text-[18px] mt-5 800px:mr-0 mr-2 ${
+                    } !w-[120px] !h-[40px] text-[18px] mt-5 sm:mr-0 mr-2 ${
                       reviewCreationLoading && "cursor-no-drop"
                     }`}
                     onClick={
@@ -463,7 +463,7 @@ const CourseContentMedia = ({
                             placeholder="Enter your reply..."
                             value={reply}
                             onChange={(e: any) => setReply(e.target.value)}
-                            className="block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#000] dark:border-[#fff] p-[5px] w-[95%]"
+                            className="block sm:ml-12 mt-2 outline-none bg-transparent border-b border-[#000] dark:border-[#fff] p-[5px] w-[95%]"
                           />
                           <button
                             type="submit"
@@ -476,7 +476,7 @@ const CourseContentMedia = ({
                       )}
 
                       {item.commentReplies.map((i: any, index: number) => (
-                        <div className="w-full flex 800px:ml-16 my-5" key={index}>
+                        <div className="w-full flex sm:ml-16 my-5" key={index}>
                           <div className="w-[50px] h-[50px]">
                             <Image
                               src={
@@ -527,7 +527,7 @@ const CommentReply = ({
   return (
     <>
       <div className="w-full my-3">
-        {data[activeVideo].questions.map((item: any, index: any) => (
+        {data[activeVideo]?.questions?.map((item: any, index: any) => (
           <CommentItem
             key={index}
             data={data}
@@ -584,7 +584,7 @@ const CommentItem = ({
         </div>
         <div className="w-full flex">
           <span
-            className="800px:pl-16 text-[#000000b8] dark:text-[#ffffff83] cursor-pointer mr-2"
+            className="sm:pl-16 text-[#000000b8] dark:text-[#ffffff83] cursor-pointer mr-2"
             onClick={() => {
               setreplyActive(!replyActive);
               setQuestionId(item._id);
@@ -608,7 +608,7 @@ const CommentItem = ({
         {replyActive && questionId === item._id &&  (
           <>
             {item.questionReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white" key={item._id}>
+              <div className="w-full flex sm:ml-16 my-5 text-black dark:text-white" key={item._id}>
                 <div>
                   <Image
                     src={
@@ -643,7 +643,7 @@ const CommentItem = ({
                   placeholder="Enter your answer..."
                   value={answer}
                   onChange={(e: any) => setAnswer(e.target.value)}
-                  className={`block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:text-white text-black dark:border-[#fff] p-[5px] w-[95%] ${
+                  className={`block sm:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:text-white text-black dark:border-[#fff] p-[5px] w-[95%] ${
                     answer === "" ||
                     (answerCreationLoading && "cursor-not-allowed")
                   }`}
