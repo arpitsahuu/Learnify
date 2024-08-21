@@ -65,7 +65,7 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     <nav ref={container} className="w-full sm:ps-20 sm:pe-10 py-5 px-2 flex justify-between items-center font-['Neue Montreal'] absolute top-0  ">
       <div className="logo">
         {" "}
-        <h3 className="text-xl">Learnify</h3>
+        <Link href={"/"} className="text-xl">Learnify</Link>
       </div>
       <div className=" hidden sm:block">
         <div className=" links flex gap-3 items-center text-xl">
@@ -73,7 +73,7 @@ const Navbar: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             <Link
               key={index}
               href={item}
-              className={`text-lg capitalize px-2 hover:text-main-color`}
+              className={`text-lg capitalize px-2 `}
             >
               {item}
             </Link>

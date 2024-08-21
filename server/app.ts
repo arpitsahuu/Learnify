@@ -15,6 +15,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 connectDB();
 
+// api request limit
+import { rateLimit } from 'express-rate-limit'
+
+const limiter = rateLimit({
+	windowMs: 10 * 60 * 1000, 
+	limit: 100, 
+	standardHeaders: 'draft-7', 
+	legacyHeaders: false, 
+})
+
+app.use(limiter)
+
+
 import morgan from "morgan"
 app.use(morgan("dev"));
 
