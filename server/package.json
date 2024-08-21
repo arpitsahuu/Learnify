@@ -2,10 +2,13 @@
   "name": "crud-app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "scr/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "dev": "ts-node scr/app.ts",
+    "build": "tsc"
+
   },
   "keywords": [],
   "author": "",
