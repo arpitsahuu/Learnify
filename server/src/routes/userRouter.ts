@@ -4,6 +4,12 @@ import { isAutheticated } from '../middlewares/auth';
 
 const router = express.Router();
 
+router.get("/", (req,res) =>{
+    res.json({
+        greed:"welcome to lernify"
+    })
+})
+
 // USER REGISTRATION 
 router.post("/registration",userRegistration);
 

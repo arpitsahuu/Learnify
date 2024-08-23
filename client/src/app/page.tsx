@@ -5,8 +5,6 @@ import Heading from "@/components/utils/Heading";
 import { useEffect, useState } from "react";
 import Courses from "@/components/Routes/Courses";
 // import LocomotiveScroll from 'locomotive-scroll';
-import useBlobity from "blobity/lib/react/useBlobity";
-import { initialBlobityOptions } from "../components/utils/BlobityConfig";
 
 export default function Home() {
 

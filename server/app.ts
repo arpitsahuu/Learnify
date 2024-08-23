@@ -33,7 +33,7 @@ app.use(morgan("dev"));
 
 // CORS setup
 const allowedOrigins = [
-	'http://localhost:3000',
+	'https://learnify-weld-three.vercel.app',"https://learnify-c8oz9jn8r-arpits-projects-1c6b9bf9.vercel.app"
 ];
 
 app.use(cors({
@@ -48,6 +48,10 @@ import courseRouter from "./src/routes/courseRouter";
 import layoutRouter from "./src/routes/layoutRouter";
 import analyticsRouter from "./src/routes/analyticsRouter";
 import orderRouter from "./src/routes/orderRouter";
+
+app.get("/",(req,res) =>{
+  res.json({greed:"welcome to lernify"})
+})
 
 
 // app.use("/api/items", itemsRoutes);

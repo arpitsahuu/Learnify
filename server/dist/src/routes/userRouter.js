@@ -7,6 +7,11 @@ const express_1 = __importDefault(require("express"));
 const userController_1 = require("../controllers/userController");
 const auth_1 = require("../middlewares/auth");
 const router = express_1.default.Router();
+router.get("/", (req, res) => {
+    res.json({
+        greed: "welcome to lernify"
+    });
+});
 // USER REGISTRATION 
 router.post("/registration", userController_1.userRegistration);
 // USER ACTIVATION CODE (for verify user email) 
