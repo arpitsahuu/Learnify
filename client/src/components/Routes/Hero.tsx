@@ -8,6 +8,7 @@ import { Avatar, AvatarGroup, CircularProgress } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { motion } from "framer-motion";
 import { AuroraBackground } from "../ui/aurora-background";
+import { CardDemo } from '../ui/leanding-animation';
 
 const Hero = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -103,6 +104,8 @@ const Hero = () => {
                             }
                         </form>
 
+
+
                         <div className='w-full flex justify-center my-6'>
                             {/* <AvatarGroup total={24}>
                     <Avatar alt="Remy Sharp" src="/assests/avatar.png" />
@@ -110,6 +113,7 @@ const Hero = () => {
                     <Avatar alt="Agnes Walker" src="/assests/avatar.png" />
                     <Avatar alt="Trevor Henderson" src="/assests/avatar.png" />
                 </AvatarGroup> */}
+                          <CardDemo/>
 
                         </div>
                     </div>
