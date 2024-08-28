@@ -33,13 +33,23 @@ app.use(morgan("dev"));
 
 // CORS setup
 const allowedOrigins = [
-	'https://learnify-weld-three.vercel.app',"https://learnify-c8oz9jn8r-arpits-projects-1c6b9bf9.vercel.app"
+	'https://learnify-weld-three.vercel.app',"https://learnify-c8oz9jn8r-arpits-projects-1c6b9bf9.vercel.app",
+	"http://localhost:3000"
 ];
 
 app.use(cors({
 	origin: allowedOrigins,
 	credentials: true,
-	optionsSuccessStatus: 200 ,// Address potential preflight request issues
+	// optionsSuccessStatus: 200 ,// Address potential preflight request issues
+	allowedHeaders: [
+		'Content-Type', 
+		'Authorization', 
+		'X-Requested-With', 
+		'Accept', 
+		'Origin', 
+		'X-Auth-Token'
+	  ], // Specify the allowed headers for the CORS request
+	  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
 
 /* router */

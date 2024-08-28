@@ -105,7 +105,7 @@ const Sidebar = ({isCollapsed,setIsCollapsed}:Props) => {
           top: 0,
           left: 0,
           height: "100vh",
-          zIndex:99999999999999,
+          zIndex:30,
           width: isCollapsed ? "0%" : "16%",
         }}
       >

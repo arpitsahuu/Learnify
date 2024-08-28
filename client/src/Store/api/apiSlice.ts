@@ -5,6 +5,10 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_SERVER_URI,
+    credentials: "include",
+    prepareHeaders: (headers, { getState }) => {
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     refreshToken: builder.query({
@@ -30,7 +34,6 @@ export const apiSlice = createApi({
             })
           );
         } catch (error: any) {
-          console.log(error);
         }
       },
     }),

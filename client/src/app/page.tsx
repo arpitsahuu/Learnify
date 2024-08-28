@@ -32,7 +32,7 @@ export default function Home() {
   // }, [blobityInstance]);
 
   return (
-    <main className=" min-h-screen w-full">
+    <main className=" w-full">
       <Heading
         title="Learnify"
         description="Lernify is a platform for students to learn and get help from teachers"

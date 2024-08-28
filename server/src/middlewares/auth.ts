@@ -11,16 +11,18 @@ declare global {
   namespace Express {
     interface Request {
       user?: IUser; // Define the user property on the Request object
+      id?:string
     }
   }
 }
 
+
+
 // authenticated user
 export const isAutheticated = catchAsyncError(
   async (req: Request<any>, res: Response, next: NextFunction) => {
-    const accessToken = req.cookies.accessToken as string;
+    const accessToken = req.cookies.accessToken as string ;
     const refreshToken = req.cookies.refreshToken as string;
-
 
     if (!accessToken) {
       return next(

@@ -10,11 +10,6 @@ export function CardDemo() {
             <CardSkeletonContainer>
                 <Skeleton />
             </CardSkeletonContainer>
-            {/* <CardTitle>Damn good card</CardTitle>
-      <CardDescription>
-        A card that showcases a set of tools that you use to create your
-        product.
-      </CardDescription> */}
         </Card>
     );
 }
@@ -92,8 +87,8 @@ const Skeleton = () => {
                 </Container>
             </div>
 
-            <div className="h-40 w-px absolute top-20 m-auto z-40 bg-gradient-to-b from-transparent via-cyan-500 to-transparent animate-move">
-                <div className="w-10 h-32 top-1/2 -translate-y-1/2 absolute -left-10">
+            <div className="h-40 w-px absolute top-0 m-auto z-40 bg-gradient-to-b from-transparent via-cyan-500 to-transparent animate-move">
+                <div className="w-10 h-32 top-20 -translate-y-1/2 absolute -left-10">
                     <Sparkles />
                 </div>
             </div>
@@ -146,7 +141,7 @@ export const Card = ({
     return (
         <div
             className={cn(
-                "max-w-sm w-full mx-auto p-8 h-[5rem] rounded-xl border border-[rgba(255,255,255,0.10)] bg-transparent shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group",
+                "max-w-sm w-[320px] mx-auto h-[5rem] rounded-xl border border-[rgba(255,255,255,0.10)] bg-transparent shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group ",
                 className
             )}
         >
@@ -205,7 +200,7 @@ export const CardSkeletonContainer = ({
     return (
         <div
             className={cn(
-                "h-[7rem] md:h-[7rem] rounded-xl z-40",
+                "h-[5rem] md:h-[7rem] rounded-xl z-40",
                 className,
                 showGradient &&
                 "bg-neutral-200 dark:bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(60%_50%_at_50%_50%,white_0%,transparent_100%)]"

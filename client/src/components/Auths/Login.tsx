@@ -59,7 +59,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   return (
     <div className="w-full">
       <h1 className="text-[25px] text-gray-800 dark:text-white font-Poppins font-semibold text-center pt-6 pb-3 ">
-        Login with Lernify
+        Login with Learnify
       </h1>
       {error && "data" in error && (
         <p className=" text-xs text-red-500 text-center mb-2 ">

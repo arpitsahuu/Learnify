@@ -50,19 +50,21 @@ const Hero = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{
                     delay: 0.3,
-                    duration: 0.8,
+                    duration: 0.5,
                     ease: "easeInOut",
                 }}
                 className="relative flex flex-col gap-4 items-center justify-center px-4"
             >
-                <section className='w-full h-screen pt-1 '>
+                <section className='w-full pt-1 '>
                     <div className=' sm:mt-32 mt-24  text-center'>
-                        <h3 className='border border-gray-300 px-5 py-1 inline-block rounded-full text-[8px] md:text-sm  '>Elevate your online learnig journey! <span className=' text-blue-500 '>Read more </span></h3>
-                        <h1 className=' lg:text-[60px] lg:leading-[60px]  my-3 sm:my-6 text-[6vw] leading-[6vw]  sm:text-[4.2vw] font-bold whitespace-pre sm:leading-[4vw] text-gray-800'>Unlock Your Tech Potential <br /> with Courses Designed for Success</h1>
-                        <h5 className=' text-gray-600  px-2 text-center text-wrap text-[9px] sm:text-sm lg:w-[50%] md:w-[60%] sm:w-[62%]  m-auto'>Join a vibrant community of learners and professionals, dedicated to exploring the latest advancements in tech and development, and unlock new opportunities for personal and professional growth</h5>
+                        <h3 className='border border-gray-300 px-3 sm:px-5 py-1 inline-block rounded-full text-[8px] md:text-sm  '>Elevate your online learnig journey! <span className=' text-blue-500 '>Read more </span></h3>
+
+                        <h1 className=' lg:text-[60px] lg:leading-[60px]  my-3 sm:my-6 leading-[5vw] text-[5vw]  sm:text-[4.2vw] font-bold whitespace-pre sm:leading-[4vw] text-gray-800'>Unlock Your Tech Potential <br /> with Courses Designed for Success</h1>
+
+                        <h5 className=' text-gray-600  px-2 text-center text-wrap text-[9px] sm:text-sm lg:w-[60%] md:w-[60%] sm:w-[62%]  m-auto'>Join a vibrant community of learners and professionals, dedicated to exploring the latest advancements in tech and development, and unlock new opportunities for personal and professional growth</h5>
 
                         <form onSubmit={handleSearch} className=' relative mt-8 w-[90%] sm:w-[700px] m-auto '>
-                            <input type="text" name="serch" className='w-full sm:h-14 h-10 bg-sky-50 rounded-full pe-28  ps-10 sm:ps-16 text-gray-700 text-sm sm:text-lg shadow' placeholder='Search Courses' required onChange={(e) => setSearchTerm(e.target.value)} />
+                            <input type="text" id='search' name="serch" className='w-full sm:h-14 h-10 bg-sky-50 rounded-full pe-28  ps-10 sm:ps-16 text-gray-700 text-sm sm:text-lg shadow' placeholder='Search Courses' required onChange={(e) => setSearchTerm(e.target.value)} />
                             <button
                                 type="submit"
                                 className={`absolute  py-1 px-3 sm:py-2 sm:px-6  rounded-full top-1 right-1 sm:top-2 sm:right-3 text-white  ${isLoading ? "!cursor-no-drop opacity-[0.6] bg-gray-400 text-black" : "bg-[#4080ED]"}`}
@@ -103,18 +105,8 @@ const Hero = () => {
                                 </div>
                             }
                         </form>
-
-
-
-                        <div className='w-full flex justify-center my-6'>
-                            {/* <AvatarGroup total={24}>
-                    <Avatar alt="Remy Sharp" src="/assests/avatar.png" />
-                    <Avatar alt="Travis Howard" src="/assests/avatar.png" />
-                    <Avatar alt="Agnes Walker" src="/assests/avatar.png" />
-                    <Avatar alt="Trevor Henderson" src="/assests/avatar.png" />
-                </AvatarGroup> */}
+                        <div className='w-full flex justify-center  mt-14 sm:mb-36 mb-24 '>
                           <CardDemo/>
-
                         </div>
                     </div>
 
